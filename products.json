@@ -35,7 +35,6 @@
         {
           "id": "bmsp-5",
           "watt": 5,
-          "cost": 12500,
           "price": 18500,
           "discountRules": [
             {
@@ -63,20 +62,17 @@
         {
           "id": "bmsp-7",
           "watt": 7,
-          "cost": 3481,
           "price": 4525,
           "discountRules": [
             {
               "minQty": 1,
               "percent": 12
             }
-          ],
-          "margin": 30
+          ]
         },
         {
           "id": "bmsp-9",
           "watt": 9,
-          "cost": 14500,
           "price": 21300,
           "discountRules": [
             {
@@ -104,20 +100,17 @@
         {
           "id": "bmsp-12",
           "watt": 12,
-          "cost": 4631,
           "price": 6020,
           "discountRules": [
             {
               "minQty": 1,
               "percent": 12
             }
-          ],
-          "margin": 30
+          ]
         },
         {
           "id": "bmsp-15",
           "watt": 15,
-          "cost": 17500,
           "price": 25500,
           "discountRules": [
             {
@@ -145,46 +138,39 @@
         {
           "id": "bmsp-18",
           "watt": 18,
-          "cost": 6234,
           "price": 8104,
           "discountRules": [
             {
               "minQty": 1,
               "percent": 12
             }
-          ],
-          "margin": 30
+          ]
         },
         {
           "id": "bmsp-24",
           "watt": 24,
-          "cost": 8255,
           "price": 10732,
           "discountRules": [
             {
               "minQty": 1,
               "percent": 12
             }
-          ],
-          "margin": 30
+          ]
         },
         {
           "id": "bmsp-30",
           "watt": 30,
-          "cost": 10611,
           "price": 13794,
           "discountRules": [
             {
               "minQty": 1,
               "percent": 12
             }
-          ],
-          "margin": 30
+          ]
         },
         {
           "id": "bmsp-40",
           "watt": 40,
-          "cost": 30000,
           "price": 43000,
           "discountRules": [
             {
@@ -212,7 +198,6 @@
         {
           "id": "bmsp-50",
           "watt": 50,
-          "cost": 35000,
           "price": 50000,
           "discountRules": [
             {
@@ -249,7 +234,6 @@
         {
           "id": "aliano-5",
           "watt": 5,
-          "cost": 11750,
           "price": 17750,
           "discountRules": [
             {
@@ -277,7 +261,6 @@
         {
           "id": "aliano-7",
           "watt": 7,
-          "cost": 12850,
           "price": 19250,
           "discountRules": [
             {
@@ -305,7 +288,6 @@
         {
           "id": "aliano-9",
           "watt": 9,
-          "cost": 13950,
           "price": 20750,
           "discountRules": [
             {
@@ -333,7 +315,6 @@
         {
           "id": "aliano-12",
           "watt": 12,
-          "cost": 15600,
           "price": 23000,
           "discountRules": [
             {
@@ -361,7 +342,6 @@
         {
           "id": "aliano-15",
           "watt": 15,
-          "cost": 17250,
           "price": 25250,
           "discountRules": [
             {
@@ -389,7 +369,6 @@
         {
           "id": "aliano-18",
           "watt": 18,
-          "cost": 18900,
           "price": 27500,
           "discountRules": [
             {
@@ -417,7 +396,6 @@
         {
           "id": "aliano-20",
           "watt": 20,
-          "cost": 20000,
           "price": 29000,
           "discountRules": [
             {
@@ -445,7 +423,6 @@
         {
           "id": "aliano-24",
           "watt": 24,
-          "cost": 22200,
           "price": 32000,
           "discountRules": [
             {
@@ -473,7 +450,6 @@
         {
           "id": "aliano-30",
           "watt": 30,
-          "cost": 25500,
           "price": 36500,
           "discountRules": [
             {
@@ -501,7 +477,6 @@
         {
           "id": "aliano-40",
           "watt": 40,
-          "cost": 31000,
           "price": 44000,
           "discountRules": [
             {
@@ -529,7 +504,6 @@
         {
           "id": "aliano-50",
           "watt": 50,
-          "cost": 36500,
           "price": 51500,
           "discountRules": [
             {
