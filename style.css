@@ -103,3 +103,16 @@ footer{background:#fff;border-top-color:#e8edf5;padding:34px 15px}
 
 /* Cart quantity controls */
 .cart-row-controls{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:12px}.cart-qty-stepper{display:flex;align-items:center;gap:0;border:1px solid #dbe5f2;border-radius:10px;overflow:hidden;background:#fff}.cart-qty-btn{width:36px;height:38px;border:0;background:#edf4ff;color:#194d86;font-size:20px;font-weight:800;cursor:pointer}.cart-qty-btn:hover{background:#dceaff}.cart-qty-stepper input[data-cartqty]{width:48px;height:38px;border:0;border-left:1px solid #e2eaf5;border-right:1px solid #e2eaf5;border-radius:0;text-align:center;font-weight:700;color:#172b45;padding:4px}.cart-qty-stepper input::-webkit-inner-spin-button,.cart-qty-stepper input::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}.cart-qty-stepper input[type=number]{-moz-appearance:textfield}.cart-row-controls .remove{border:1px solid #f1d8d8;background:#fff7f7;color:#b42318;border-radius:9px;padding:9px 12px;font-weight:700;cursor:pointer}.cart-row-controls .remove:hover{background:#ffeded}@media(max-width:420px){.cart-qty-btn{width:32px}.cart-qty-stepper input[data-cartqty]{width:40px}}
+
+/* Product-first catalog refinements */
+.product-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.bulb-illustration{position:relative;z-index:1;width:148px;height:148px;max-width:100%;filter:drop-shadow(0 9px 12px #19365c12);transition:transform .22s ease}
+.product-card:hover .bulb-illustration{transform:translateY(-3px) scale(1.025)}
+.product-image-centered{overflow:hidden}
+.product-image-centered img{object-fit:contain;padding:12px}
+.product-image-centered:before{content:"LED";position:absolute;z-index:2;top:10px;right:10px;padding:5px 7px;border:1px solid #e2eaf5;border-radius:7px;background:#ffffffc9;color:#315b8f;font-size:9px;font-weight:800;letter-spacing:1px}
+.product-heading{min-height:48px}
+.variant-detail{min-height:142px}
+@media(min-width:1100px){.product-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.product-card{padding:15px}.product-image-centered{height:165px}}
+@media(max-width:650px){.product-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.product-card{padding:11px}.product-image-centered{height:135px}.bulb-illustration{width:115px;height:115px}.product-heading{min-height:44px}.variant-detail{min-height:144px}.watt-options{gap:5px}.watt-option{padding:8px 5px;font-size:11px}}
+@media(max-width:370px){.product-grid{grid-template-columns:1fr}.product-image-centered{height:160px}}
