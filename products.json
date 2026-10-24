@@ -63,30 +63,15 @@
         {
           "id": "bmsp-7",
           "watt": 7,
-          "cost": 13500,
-          "price": 19900,
+          "cost": 3481,
+          "price": 4525,
           "discountRules": [
             {
               "minQty": 1,
-              "percent": 0
-            },
-            {
-              "minQty": 10,
-              "percent": 3
-            },
-            {
-              "minQty": 25,
-              "percent": 5
-            },
-            {
-              "minQty": 50,
-              "percent": 8
-            },
-            {
-              "minQty": 100,
-              "percent": 10
+              "percent": 12
             }
-          ]
+          ],
+          "margin": 30
         },
         {
           "id": "bmsp-9",
@@ -119,30 +104,15 @@
         {
           "id": "bmsp-12",
           "watt": 12,
-          "cost": 16000,
-          "price": 23400,
+          "cost": 4631,
+          "price": 6020,
           "discountRules": [
             {
               "minQty": 1,
-              "percent": 0
-            },
-            {
-              "minQty": 10,
-              "percent": 3
-            },
-            {
-              "minQty": 25,
-              "percent": 5
-            },
-            {
-              "minQty": 50,
-              "percent": 8
-            },
-            {
-              "minQty": 100,
-              "percent": 10
+              "percent": 12
             }
-          ]
+          ],
+          "margin": 30
         },
         {
           "id": "bmsp-15",
@@ -175,86 +145,41 @@
         {
           "id": "bmsp-18",
           "watt": 18,
-          "cost": 19000,
-          "price": 27600,
+          "cost": 6234,
+          "price": 8104,
           "discountRules": [
             {
               "minQty": 1,
-              "percent": 0
-            },
-            {
-              "minQty": 10,
-              "percent": 3
-            },
-            {
-              "minQty": 25,
-              "percent": 5
-            },
-            {
-              "minQty": 50,
-              "percent": 8
-            },
-            {
-              "minQty": 100,
-              "percent": 10
+              "percent": 12
             }
-          ]
+          ],
+          "margin": 30
         },
         {
           "id": "bmsp-24",
           "watt": 24,
-          "cost": 22000,
-          "price": 31800,
+          "cost": 8255,
+          "price": 10732,
           "discountRules": [
             {
               "minQty": 1,
-              "percent": 0
-            },
-            {
-              "minQty": 10,
-              "percent": 3
-            },
-            {
-              "minQty": 25,
-              "percent": 5
-            },
-            {
-              "minQty": 50,
-              "percent": 8
-            },
-            {
-              "minQty": 100,
-              "percent": 10
+              "percent": 12
             }
-          ]
+          ],
+          "margin": 30
         },
         {
           "id": "bmsp-30",
           "watt": 30,
-          "cost": 25000,
-          "price": 36000,
+          "cost": 10611,
+          "price": 13794,
           "discountRules": [
             {
               "minQty": 1,
-              "percent": 0
-            },
-            {
-              "minQty": 10,
-              "percent": 3
-            },
-            {
-              "minQty": 25,
-              "percent": 5
-            },
-            {
-              "minQty": 50,
-              "percent": 8
-            },
-            {
-              "minQty": 100,
-              "percent": 10
+              "percent": 12
             }
-          ]
+          ],
+          "margin": 30
         },
         {
           "id": "bmsp-40",
