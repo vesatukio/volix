@@ -1,23 +1,17 @@
 {
+  "id": "./",
   "name": "VOLIX Mitra Sejati",
   "short_name": "VOLIX",
-  "description": "Katalog internal lampu LED",
+  "description": "Katalog LED VOLIX Mitra Sejati",
   "lang": "id-ID",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
+  "orientation": "portrait",
   "background_color": "#f7f9fc",
   "theme_color": "#102b54",
+  "categories": ["shopping", "business"],
   "icons": [
-    {
-      "src": "./assets/icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "./assets/icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png"
-    }
+    { "src": "./volix-icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
   ]
 }
