@@ -100,3 +100,6 @@ footer{background:#fff;border-top-color:#e8edf5;padding:34px 15px}
  .price-line .sale{font-size:14px}
 }
 @media(min-width:900px){.product-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* Cart quantity controls */
+.cart-row-controls{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:12px}.cart-qty-stepper{display:flex;align-items:center;gap:0;border:1px solid #dbe5f2;border-radius:10px;overflow:hidden;background:#fff}.cart-qty-btn{width:36px;height:38px;border:0;background:#edf4ff;color:#194d86;font-size:20px;font-weight:800;cursor:pointer}.cart-qty-btn:hover{background:#dceaff}.cart-qty-stepper input[data-cartqty]{width:48px;height:38px;border:0;border-left:1px solid #e2eaf5;border-right:1px solid #e2eaf5;border-radius:0;text-align:center;font-weight:700;color:#172b45;padding:4px}.cart-qty-stepper input::-webkit-inner-spin-button,.cart-qty-stepper input::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}.cart-qty-stepper input[type=number]{-moz-appearance:textfield}.cart-row-controls .remove{border:1px solid #f1d8d8;background:#fff7f7;color:#b42318;border-radius:9px;padding:9px 12px;font-weight:700;cursor:pointer}.cart-row-controls .remove:hover{background:#ffeded}@media(max-width:420px){.cart-qty-btn{width:32px}.cart-qty-stepper input[data-cartqty]{width:40px}}
