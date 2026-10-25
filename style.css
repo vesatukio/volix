@@ -765,3 +765,40 @@ body{font-family:Arial,Helvetica,sans-serif!important;background:#f1f3f6!importa
  .floating-nav{width:calc(100% - 14px)!important;left:7px!important;bottom:5px!important;border-radius:4px!important}.floating-nav button{min-height:36px!important}.floating-nav button span,.floating-nav button[data-nav="cost"] span{font-size:15px!important}.floating-nav button small{font-size:9px!important}.cart-drawer{height:min(92dvh,850px)!important;padding:12px!important}.info-strip{padding:9px!important}.info-strip b{font-size:11px!important}.info-strip p{font-size:10px!important}
 }
 @media(max-width:370px){.brand small{display:none!important}.product-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}.product-card{padding:6px!important}.product-image-centered{height:70px!important;min-height:70px!important}.product-heading .product-name{font-size:11px!important}.watt-option{padding:4px 6px!important;font-size:9px!important}.internal-prices .price-line{font-size:9px!important}.internal-prices .price-line strong{font-size:10px!important}}
+
+
+/* POS refinement: prioritize fast product lookup and one-tap add-to-cart */
+.topbar{position:sticky!important;top:0!important;z-index:40!important}
+.hero{padding:9px 16px!important;background:#e8edf4!important;border-bottom:2px solid #17365d!important}
+.hero h1{font-size:19px!important;margin:2px 0!important}
+.hero p{margin:2px 0!important;font-size:11px!important}
+.container{padding-top:12px!important}
+.shop-intro{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:12px!important}
+.shop-intro h2{font-size:20px!important}
+.toolbar{position:sticky!important;top:54px!important;z-index:25!important;box-shadow:0 2px 5px #17212f0a!important}
+.searchbox{border-width:2px!important;border-color:#aebed1!important}
+.searchbox:focus-within{border-color:#2459a6!important;box-shadow:0 0 0 2px #2459a61a!important}
+.product-card{position:relative!important}
+.product-card .add-btn{min-height:39px!important;font-size:12px!important;letter-spacing:.1px!important}
+.cart-pill{font-weight:800!important}
+.cart-drawer{z-index:100!important}
+.drawer-head{border-bottom:1px solid #d6dde7!important;padding-bottom:12px!important}
+.cart-summary{border:1px solid #cbd3df!important;background:#f7f9fc!important;padding:12px!important}
+.checkout-btn,.checkout-fields button{min-height:42px!important;font-weight:800!important}
+@media(min-width:900px){
+ .container{max-width:1320px!important}
+ .product-grid{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:10px!important}
+ .product-card{padding:12px!important}
+ .product-image-centered{height:108px!important;min-height:108px!important}
+ .product-heading .product-name{font-size:14px!important}
+ .variant.variant-detail{padding:10px!important}
+}
+@media(max-width:650px){
+ .topbar{top:0!important}
+ .hero{padding:8px 10px!important}
+ .hero h1{font-size:16px!important}
+ .shop-intro h2{font-size:16px!important}
+ .toolbar{top:50px!important}
+ .product-card .add-btn{min-height:36px!important}
+ .searchbox{width:100%!important}
+}
