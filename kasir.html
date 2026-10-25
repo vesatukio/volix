@@ -33,6 +33,20 @@
 /* Clearer touch targets and multi-SKU shipment editor */
 .shipment-items{display:grid;gap:8px;margin:12px 0}.shipment-item{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(78px,.6fr) auto;gap:7px;align-items:end;padding:10px;background:#f7f9fc;border:1px solid #e4eaf3;border-radius:10px}.shipment-item label{display:grid;gap:5px}.shipment-item button{min-width:42px}.quick-actions{display:flex;gap:8px;flex-wrap:wrap}.quick-actions button{flex:1;min-width:120px}.install-btn{background:#e8f7ed;color:#166534;border-color:#b9e6c8}.shipment-summary{font-weight:700;color:#2457a6;margin:8px 0}.scan input{min-height:58px;padding:14px 16px;border:2px solid #c8d8f2;border-radius:12px;font-size:18px}.scan button{min-height:58px;padding:13px 18px;border-radius:12px;font-size:16px}.scan button.primary{min-width:112px}.scan button.soft{background:#edf4ff;border-color:#cbdcf8;color:#1f4f95}.product .actions{display:none}.product{border-color:#dce6f4;box-shadow:0 3px 12px rgba(28,55,95,.045)}.product h3{font-size:15px;line-height:1.4}.product .sku{letter-spacing:.3px}.product b{font-size:17px;color:#2457a6}
 @media(max-width:650px){.shipment-item{grid-template-columns:minmax(0,1fr) 82px 42px;gap:6px;padding:8px}.shipment-item select,.shipment-item input{width:100%;min-width:0;padding:8px 5px}.quick-actions button{min-height:46px}}
+
+/* Distinct colors for every report action */
+.report-tabs button:nth-child(1){background:#e0f2fe;color:#075985;border-color:#7dd3fc}
+.report-tabs button:nth-child(1).active{background:#0284c7;color:#fff;border-color:#0284c7}
+.report-tabs button:nth-child(2){background:#dcfce7;color:#166534;border-color:#86efac}
+.report-tabs button:nth-child(2).active{background:#16a34a;color:#fff;border-color:#16a34a}
+.report-tabs button:nth-child(3){background:#f3e8ff;color:#6b21a8;border-color:#d8b4fe}
+.report-tabs button:nth-child(3).active{background:#9333ea;color:#fff;border-color:#9333ea}
+.report-tabs button:nth-child(4){background:#ffedd5;color:#9a3412;border-color:#fdba74}
+.report-tabs button:nth-child(4).active{background:#ea580c;color:#fff;border-color:#ea580c}
+#exportCsv{background:#dcfce7;color:#166534;border-color:#86efac}
+#salesRows button[data-delete]{background:#fee2e2;color:#b91c1c;border-color:#fecaca}
+#backupBtn{background:#e0e7ff;color:#3730a3;border-color:#c7d2fe}
+#restoreFile{background:#fef3c7;color:#92400e;border-color:#fde68a}
 </style></head><body>
 <header><div><strong>⚡ VOLIX</strong><div class="muted">Kasir & Laporan Laba</div></div><div class="row"><span id="syncStatus" class="status ok">Lokal aktif</span><button id="installBtn" class="install-btn hidden" type="button">＋ Pasang aplikasi</button></div></header>
 <main>
@@ -105,7 +119,7 @@ document.getElementById("shipSuccess").onclick=()=>saveShipment("Sukses kirim");
 document.getElementById("shipFailed").onclick=()=>saveShipment("Gagal kirim");
 document.getElementById("cancelShipment").onclick=()=>{document.getElementById("shipmentPanel").classList.add("hidden");cameraBusy=false;if(cameraStream){cameraScanMode=true;cameraScanTick()}};
 document.getElementById("scanForm").onsubmit=async e=>{e.preventDefault();let raw=document.getElementById("skuInput").value.trim().toUpperCase();const m=raw.match(/^(.+?)(?:\s*[X×]\s*(\d+))?$/);if(!m||!m[1])return;const code=m[1].trim();const qty=Math.max(1,Number(m[2]||1));if(products.some(p=>p.sku.toUpperCase()===code)){await record(code,qty);return}await showShipment(code,qty)};
-document.getElementById("scanNextBtn").onclick=()=>{document.getElementById("shipmentPanel").classList.add("hidden");document.getElementById("skuInput").value="";cameraBusy=false;document.getElementById("message").textContent="Siap scan resi berikutnya. Arahkan scanner ke barcode resi lalu scan.";document.getElementById("skuInput").focus();if(cameraStream){cameraScanMode=true;cameraScanTick()}};
+document.getElementById("scanNextBtn").onclick=async()=>{document.getElementById("shipmentPanel").classList.add("hidden");document.getElementById("skuInput").value="";document.getElementById("trackingInput").value="";document.getElementById("shipmentItems").innerHTML="";pendingTracking="";cameraBusy=false;document.getElementById("message").textContent="Siap scan resi berikutnya. Kamera akan dibuka; arahkan ke barcode resi.";document.getElementById("skuInput").focus();if(cameraStream){cameraScanMode=true;cameraScanTick();return}await startCameraScanner("resi")};
 document.getElementById("productsToggle").onclick=()=>document.getElementById("productEditor").classList.toggle("hidden");
 document.getElementById("productForm").onsubmit=async e=>{e.preventDefault();const p={sku:document.getElementById("pSku").value.trim().toUpperCase(),name:document.getElementById("pName").value.trim(),price:Number(document.getElementById("pPrice").value),cost:Number(document.getElementById("pCost").value),admin:Number(document.getElementById("pAdmin").value),pack:Number(document.getElementById("pPack").value)};if(!p.sku)return;await put("products",p);products=await all("products");renderProducts();e.target.reset();document.getElementById("backupMessage").textContent="Produk disimpan di perangkat ini."};
 const localDateKey=value=>{const d=value instanceof Date?value:new Date(value);if(Number.isNaN(d.getTime()))return "";return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")};
@@ -114,16 +128,52 @@ function render(){renderProducts();renderShipments();const filtered=sales.filter
 document.querySelectorAll("[data-period]").forEach(b=>b.onclick=()=>{period=b.dataset.period;document.querySelectorAll("[data-period]").forEach(x=>x.classList.toggle("active",x===b));document.getElementById("dateLabel").classList.toggle("hidden",period!=="date");render()});document.getElementById("reportDate").onchange=render;
 document.getElementById("backupBtn").onclick=async()=>{const payload={app:"VOLIX Kasir",version:2,exported_at:new Date().toISOString(),products:await all("products"),sales:await all("sales"),shipments:await all("shipments")};const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(payload,null,2)],{type:"application/json"}));a.download="volix-backup-"+today()+".json";a.click();URL.revokeObjectURL(a.href);document.getElementById("backupMessage").textContent="Backup dibuat. Simpan file ini di tempat aman."};
 document.getElementById("restoreFile").onchange=async e=>{const f=e.target.files[0];if(!f)return;try{const p=JSON.parse(await f.text());if(!Array.isArray(p.sales)||!Array.isArray(p.products))throw Error("Format backup tidak cocok");if(!confirm("Pulihkan backup? Data lokal yang memiliki ID sama akan diganti; data lain tetap ada."))return;for(const x of p.products)await put("products",x);for(const x of p.sales)await put("sales",x);for(const x of (p.shipments||[]))await put("shipments",x);products=await all("products");sales=await all("sales");sales.sort((a,b)=>b.sold_at.localeCompare(a.sold_at));render();document.getElementById("backupMessage").textContent="Backup berhasil dipulihkan.";}catch(err){alert("Gagal memulihkan backup: "+err.message)}e.target.value=""};
-let cameraStream=null,cameraTimer=null;
-document.getElementById("cameraBtn").onclick=async()=>{
+let cameraStream=null,cameraTimer=null,cameraDetector=null,cameraScanMode=false,cameraBusy=false,cameraScanTick=null;
+async function startCameraScanner(mode="resi"){
  const box=document.getElementById("cameraBox"),video=document.getElementById("cameraVideo"),hint=document.getElementById("cameraHint");
- if(!navigator.mediaDevices?.getUserMedia){hint.textContent="Browser ini tidak mendukung kamera. Buka situs di Chrome dan pastikan memakai HTTPS.";box.classList.remove("hidden");return}
- if(!("BarcodeDetector" in window)){hint.textContent="Pemindai QR/barcode belum didukung browser ini. Ketik SKU atau gunakan scanner USB/Bluetooth.";box.classList.remove("hidden");return}
- try{const detector=new BarcodeDetector({formats:["qr_code","code_128","code_39","ean_13","ean_8","upc_a","upc_e"]});cameraStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:"environment"},audio:false});video.srcObject=cameraStream;box.classList.remove("hidden");await video.play();hint.textContent="Arahkan kamera ke QR/barcode yang berisi SKU.";
- const tick=async()=>{if(!cameraStream)return;try{const codes=await detector.detect(video);if(codes.length){document.getElementById("skuInput").value=codes[0].rawValue;stopCamera();document.getElementById("scanForm").requestSubmit();return}}catch(e){}cameraTimer=setTimeout(tick,250)};tick();
- }catch(e){hint.textContent="Kamera tidak bisa dibuka: "+e.message+". Izinkan akses kamera untuk situs ini." ;box.classList.remove("hidden")}
-};
-function stopCamera(){if(cameraTimer)clearTimeout(cameraTimer);cameraTimer=null;if(cameraStream){cameraStream.getTracks().forEach(t=>t.stop());cameraStream=null}document.getElementById("cameraVideo").srcObject=null;document.getElementById("cameraBox").classList.add("hidden")}
+ if(!navigator.mediaDevices?.getUserMedia){box.classList.remove("hidden");hint.textContent="Kamera tidak tersedia di browser ini. Buka tautan HTTPS di Chrome dan izinkan akses kamera.";return}
+ try{
+  if(!cameraStream){cameraStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:"environment"}},audio:false});video.srcObject=cameraStream;await video.play()}
+  box.classList.remove("hidden");cameraScanMode=mode==="resi";cameraBusy=false;
+  if("BarcodeDetector" in window){
+   try{cameraDetector=new BarcodeDetector({formats:["qr_code","code_128","code_39","ean_13","ean_8","upc_a","upc_e","itf","codabar"]})}catch(e){cameraDetector=null}
+  }
+  if(!cameraDetector){
+   hint.textContent="Kamera aktif. Browser ini tidak punya pemindai barcode bawaan. Pakai scanner barcode USB/Bluetooth atau ketik/pindai dengan aplikasi scanner ke kolom SKU/resi.";
+   return;
+  }
+  hint.textContent=mode==="resi"?"Kamera aktif — arahkan ke barcode resi. Kamera tetap menyala untuk resi berikutnya.":"Kamera aktif — arahkan ke barcode SKU.";
+  cameraScanTick=async()=>{
+   if(!cameraStream||cameraBusy||!cameraDetector){cameraTimer=setTimeout(cameraScanTick,300);return}
+   try{
+    if(video.readyState>=2){
+     const codes=await cameraDetector.detect(video);
+     if(codes.length){
+      const code=String(codes[0].rawValue||"").trim();
+      if(code){
+       cameraBusy=true;
+       if(cameraScanMode){
+        const normalized=code.toUpperCase();
+        const p=products.find(x=>String(x.sku).toUpperCase()===normalized);
+        if(p){document.getElementById("skuInput").value=code;document.getElementById("message").textContent="Barcode terbaca sebagai SKU, bukan resi. Scan barcode resi atau masukkan nomor resi."}
+        else {await showShipment(code,1)}
+       }else{
+        document.getElementById("skuInput").value=code;
+        await document.getElementById("scanForm").requestSubmit();
+       }
+       if(cameraStream){cameraBusy=false;hint.textContent="Resi siap dipindai berikutnya. Arahkan ke barcode resi.";cameraTimer=setTimeout(cameraScanTick,700)}
+       return;
+      }
+     }
+    }
+   }catch(e){}
+   cameraTimer=setTimeout(cameraScanTick,250);
+  };
+  cameraScanTick();
+ }catch(e){cameraStream=null;box.classList.remove("hidden");hint.textContent="Kamera tidak bisa dibuka: "+e.message+". Buka situs melalui HTTPS dan izinkan akses kamera di pengaturan browser."}
+}
+document.getElementById("cameraBtn").onclick=()=>startCameraScanner("resi");
+function stopCamera(){if(cameraTimer)clearTimeout(cameraTimer);cameraTimer=null;cameraScanTick=null;cameraDetector=null;cameraScanMode=false;cameraBusy=false;if(cameraStream){cameraStream.getTracks().forEach(t=>t.stop());cameraStream=null}document.getElementById("cameraVideo").srcObject=null;document.getElementById("cameraBox").classList.add("hidden")}
 document.getElementById("stopCamera").onclick=stopCamera;
 
 
