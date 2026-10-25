@@ -346,3 +346,25 @@ button,input,textarea,select{max-width:100%;min-width:0}
  .floating-nav button span{font-size:22px}
  .floating-nav button small{font-size:clamp(10px,2.7vw,13px);line-height:1.2}
 }
+
+/* Responsive correction for phones whose CSS viewport exceeds 650px */
+@media(max-width:900px){
+ .topbar{height:auto!important;min-height:58px;padding:8px 12px!important;gap:8px;flex-wrap:nowrap}
+ .brand{flex:0 1 auto;min-width:0;max-width:42%;gap:6px}
+ .brand-mark{width:32px;height:32px;flex:0 0 32px;font-size:18px}
+ .brand b{font-size:clamp(14px,3.2vw,20px);letter-spacing:.8px}
+ .brand small{font-size:7px;letter-spacing:.7px}
+ .top-actions{flex:1 1 auto;min-width:0;justify-content:flex-end;gap:6px}
+ .install-btn,.cart-pill{font-size:clamp(10px,2vw,13px);padding:8px 10px;min-width:0;white-space:nowrap}
+ .hero{padding:clamp(20px,4vw,34px) clamp(16px,4vw,30px)!important}
+ .hero .eyebrow{font-size:clamp(11px,2vw,15px)!important;line-height:1.45}
+ .hero h1{font-size:clamp(28px,5.5vw,42px)!important;line-height:1.16!important;margin:10px 0!important;letter-spacing:-.6px}
+ .hero p{font-size:clamp(15px,2.7vw,20px)!important;line-height:1.5}
+ .container{padding:22px 16px calc(150px + env(safe-area-inset-bottom))!important}
+ .shop-intro h2{font-size:clamp(24px,4.5vw,34px)!important;line-height:1.25}
+ .shop-intro .muted{font-size:clamp(14px,2.4vw,18px)!important;line-height:1.5}
+ .floating-nav{width:calc(100% - 24px);max-width:560px;bottom:max(8px,env(safe-area-inset-bottom));padding:7px 6px calc(7px + env(safe-area-inset-bottom))}
+ .floating-nav button{min-height:54px}
+ .floating-nav button span{font-size:22px}
+ .floating-nav button small{font-size:clamp(10px,1.8vw,13px);line-height:1.2}
+}
