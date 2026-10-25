@@ -1,0 +1,19 @@
+{
+  "name": "VOLIX Kasir",
+  "short_name": "VOLIX",
+  "description": "Kasir dan laporan penjualan VOLIX",
+  "start_url": "./kasir.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f5f7fb",
+  "theme_color": "#2457a6",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
