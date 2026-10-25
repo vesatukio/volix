@@ -423,3 +423,73 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
  .floating-nav button span{font-size:20px!important}
  .floating-nav button small{font-size:10px!important}
 }
+
+/* Final mobile cleanup: keep desktop design unchanged */
+@media screen and (max-width:650px){
+ html,body{font-size:13px!important;-webkit-text-size-adjust:100%!important;text-size-adjust:100%!important}
+ body{padding-bottom:76px!important}
+ .topbar{height:50px!important;min-height:50px!important;padding:0 9px!important;gap:6px}
+ .brand{max-width:none;gap:6px}
+ .brand-mark{width:27px!important;height:27px!important;flex-basis:27px!important;font-size:15px!important;border-radius:9px}
+ .brand b{font-size:13px!important;letter-spacing:.7px!important}
+ .brand small{font-size:6px!important;letter-spacing:.7px!important}
+ .top-actions{gap:4px!important}
+ .install-btn{font-size:9px!important;padding:6px!important;min-height:29px!important}
+ .cart-pill{font-size:9px!important;padding:6px 7px!important;min-height:29px!important}
+ .cart-pill span{padding:1px 4px!important;margin-left:2px!important}
+ .hero{min-height:0!important;padding:15px 13px!important}
+ .hero-copy{max-width:100%!important}
+ .hero-art,.hero-chips,.hero-install{display:none!important}
+ .hero .eyebrow{font-size:8px!important;letter-spacing:1px!important;line-height:1.35!important}
+ .hero h1{font-size:22px!important;line-height:1.18!important;letter-spacing:-.4px!important;margin:7px 0!important}
+ .hero p{font-size:12px!important;line-height:1.45!important;margin:5px 0 0!important}
+ .container{width:100%!important;max-width:100%!important;padding:16px 10px 22px!important}
+ .shop-intro{margin:0 0 10px!important}
+ .shop-intro .eyebrow,.shop-intro .section-label{font-size:9px!important;letter-spacing:1.2px!important}
+ .shop-intro h2{font-size:20px!important;line-height:1.2!important;margin:5px 0!important}
+ .shop-intro .muted{font-size:11px!important;line-height:1.4!important;margin-bottom:0!important}
+ .shop-trust{display:none!important}
+ .toolbar{display:block!important;margin:12px 0!important;padding:0!important}
+ .searchbox{height:38px!important;max-width:none!important;width:100%!important;padding:0 10px!important;border-radius:10px!important}
+ .searchbox input{font-size:12px!important}
+ .filters{display:flex!important;gap:5px!important;margin-top:7px!important}
+ .filter{font-size:10px!important;padding:6px 9px!important;min-height:29px!important}
+ .catalog-meta{font-size:10px!important;margin:8px 0!important}
+ .group{margin:16px 0!important}
+ .group-title{gap:8px!important;margin-bottom:9px!important}
+ .group-icon{width:32px!important;height:32px!important;flex:0 0 32px!important;font-size:17px!important;border-radius:9px!important}
+ .group-title h3{font-size:14px!important;line-height:1.25!important;margin:0 0 2px!important}
+ .group-title p{font-size:10px!important}
+ .product-grid{grid-template-columns:minmax(0,1fr)!important;gap:8px!important}
+ .product-card{padding:10px!important;border-radius:12px!important;box-shadow:none!important}
+ .card-top{gap:8px!important;margin-bottom:9px!important}
+ .product-image{width:42px!important;height:42px!important;flex-basis:42px!important;border-radius:9px!important;font-size:22px!important}
+ .product-name{font-size:12px!important;line-height:1.3!important}
+ .product-brand{font-size:9px!important;margin-top:2px!important}
+ .variant-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:6px!important}
+ .variant{padding:7px!important;border-radius:9px!important}
+ .variant-head{margin-bottom:5px!important}
+ .watt{font-size:11px!important}
+ .discount-tag{font-size:8px!important;padding:3px 4px!important}
+ .price-line{font-size:9px!important;margin:4px 0!important;gap:3px!important}
+ .price-line .sale{font-size:11px!important}
+ .profit{font-size:9px!important;padding-top:5px!important;margin-top:5px!important}
+ .variant-bottom{gap:5px!important;margin-top:7px!important}
+ .qty{width:48px!important;padding:6px 3px!important;font-size:11px!important}
+ .add-btn{font-size:10px!important;padding:7px 4px!important}
+ .info-strip{padding:10px!important;margin-top:18px!important;gap:8px!important}
+ .info-strip b{font-size:11px!important}
+ .info-strip p{font-size:10px!important;line-height:1.45!important}
+ footer{padding:18px 10px!important;font-size:10px!important}
+ .floating-nav{width:calc(100% - 20px)!important;max-width:420px!important;padding:5px 5px calc(5px + env(safe-area-inset-bottom))!important;gap:2px!important;border-radius:16px!important;backdrop-filter:blur(10px)}
+ .floating-nav button{min-height:43px!important;padding:3px 1px!important;gap:1px!important}
+ .floating-nav button span,.floating-nav button[data-nav="cost"] span{font-size:18px!important}
+ .floating-nav button small{font-size:9px!important;white-space:normal!important;line-height:1.1!important}
+}
+@media screen and (max-width:370px){
+ .brand small{display:none!important}
+ .install-btn{font-size:8px!important}
+ .hero h1{font-size:20px!important}
+ .shop-intro h2{font-size:18px!important}
+ .variant-grid{grid-template-columns:minmax(0,1fr)!important}
+}
