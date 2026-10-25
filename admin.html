@@ -35,6 +35,58 @@ main{width:100%;max-width:1100px}
  .brand small{display:none}
  #logout{padding:8px 10px}
 }
+
+/* Clean, compact admin dashboard */
+:root{--admin-ink:#172033;--admin-muted:#667085;--admin-line:#e5e7eb;--admin-bg:#f7f8fa;--admin-blue:#2457a6}
+body{background:var(--admin-bg)!important;color:var(--admin-ink)!important;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif!important;font-size:14px}
+body>.topbar{min-height:54px!important;padding:8px max(14px,calc((100vw - 1080px)/2))!important;background:#fff!important;border-bottom:1px solid var(--admin-line)!important;box-shadow:none!important}
+main{max-width:1080px!important;margin:18px auto!important;padding:0 14px!important}
+#dash>h1{font-size:26px!important;margin:10px 0 4px!important;letter-spacing:-.5px}
+#who{font-size:12px;color:var(--admin-muted)}
+#dash .panel,#login.panel{background:#fff!important;border:1px solid var(--admin-line)!important;border-radius:10px!important;padding:16px!important;margin:12px 0!important;box-shadow:none!important}
+#dash .panel h2{font-size:17px!important;font-weight:650!important;margin:0 0 8px!important}
+#dash .panel h3{font-size:14px!important}
+#dash .panel>p{font-size:12px!important;color:var(--admin-muted);margin:6px 0 12px!important}
+#dash hr{border:0;border-top:1px solid var(--admin-line);margin:16px 0}
+#dash .note{background:#f3f6fb!important;border:1px solid #e2e8f0!important;border-radius:8px!important;padding:10px 12px!important;font-size:12px!important;color:#344054!important}
+#dash button,#login button{border-radius:7px!important;box-shadow:none!important;font-size:12px!important;padding:9px 12px!important;min-height:36px}
+#dash input,#dash select,#dash textarea,#login input{border:1px solid #d0d5dd!important;border-radius:7px!important;background:#fff!important;color:var(--admin-ink)!important;padding:9px 10px!important;min-height:36px;max-width:100%}
+#dash input:focus,#dash select:focus,#dash textarea:focus,#login input:focus{outline:2px solid #dbeafe!important;border-color:#7da5e8!important}
+#dash table{border-collapse:collapse!important;background:#fff!important}
+#dash td,#dash th{padding:9px 10px!important;border-bottom:1px solid var(--admin-line)!important;font-size:12px!important;vertical-align:middle}
+#dash th{background:#f8fafc!important;color:#475467!important;font-weight:650!important}
+#dash .cost-card{background:#fff!important;border:1px solid var(--admin-line)!important;border-radius:9px!important;padding:12px!important}
+#dash .cost-fields{gap:8px!important}
+#dash .cost-results{gap:6px!important}
+#dash .cost-metric{background:#f8fafc!important;border:1px solid #edf0f4!important;border-radius:7px!important}
+#dash .cost-metric.profit{background:#f0fdf4!important}
+#dash .cost-formula{background:#fafafa!important;border:1px solid var(--admin-line)!important;border-radius:7px!important}
+#newProductForm{max-width:720px!important}
+#newProductForm label{font-size:12px!important;color:#475467!important}
+@media(max-width:650px){
+ body>.topbar{min-height:48px!important;padding:7px 10px!important;flex-wrap:nowrap!important}
+ body>.topbar .brand{max-width:none!important}
+ main{padding:0 9px!important;margin:10px auto!important}
+ #dash>h1{font-size:22px!important;margin:8px 0 3px!important}
+ #dash .panel,#login.panel{padding:11px!important;margin:9px 0!important;border-radius:8px!important}
+ #dash .panel h2{font-size:16px!important}
+ #dash .panel>p{font-size:12px!important}
+ #dash button{min-height:34px!important;padding:8px 9px!important;font-size:12px!important}
+ #dash table{min-width:560px!important}
+ #dash td,#dash th{padding:8px!important;font-size:11px!important}
+ #dash .cost-grid{grid-template-columns:minmax(0,1fr)!important;gap:8px!important}
+ #dash .cost-card{padding:10px!important}
+ #dash .cost-fields label{font-size:11px!important}
+ #dash .cost-fields input{min-height:34px!important;padding:7px!important;font-size:13px!important}
+ #dash .cost-results{gap:5px!important}
+ #dash .cost-metric{padding:7px!important}
+ #dash .cost-metric span{font-size:10px!important}
+ #dash .cost-metric strong{font-size:12px!important}
+ #newProductForm{grid-template-columns:minmax(0,1fr)!important}
+ #newProductForm .wide{grid-column:auto!important}
+ #login{margin:12px 0!important;padding:16px 12px!important}
+ #login h1{font-size:22px!important}
+}
 </style></head><body><header class="topbar"><a class="brand" href="./"><span class="brand-mark">V</span><span><b>VOLIX</b><small>ADMIN</small></span></a><button id="logout" class="btn btn-light hidden">Keluar</button></header><main><section id="login" class="panel"><h1>Masuk Admin VOLIX</h1><p>Masuk dengan akun Supabase yang role-nya sudah disetel menjadi admin.</p><form id="loginForm"><p><input id="email" type="email" placeholder="Email" required autocomplete="username"></p><p><input id="password" type="password" placeholder="Kata sandi" required autocomplete="current-password"></p><button class="btn btn-primary">Masuk</button></form><p id="message"></p></section><section id="dash" class="hidden"><h1>Dashboard VOLIX</h1><p id="who"></p><div class="note" id="notice">Memuat data admin…</div><section class="panel"><h2>Produk dan stok</h2><p>Edit nama produk, harga jual, dan stok langsung dari daftar. Gunakan formulir di bawah untuk menambahkan produk baru.</p><div id="products">—</div><hr><h3>Tambah produk baru</h3><form id="newProductForm" class="product-create"><label>SKU / kode produk<input id="newSku" required maxlength="80" placeholder="Contoh: BMSP-12"></label><label>Nama produk<input id="newName" required maxlength="180" placeholder="Contoh: LED AC BMSP 12W"></label><label class="wide">URL gambar produk (opsional)<input id="newImage" type="url" placeholder="https://..."></label><label>Harga jual normal (Rp)<input id="newPrice" type="number" min="0" step="1" required value="0"></label><label>Jumlah stok awal<input id="newStock" type="number" min="0" step="1" required value="0"></label><label class="wide">Deskripsi (opsional)<textarea id="newDescription" rows="2" placeholder="Deskripsi produk"></textarea></label><button class="btn btn-primary wide" type="submit" id="createProduct">Tambah produk</button></form><p id="newProductMsg" role="status"></p></section><section class="panel"><h2>Pesanan</h2><div id="orders">—</div></section><section class="panel"><h2>Pelanggan grosir menunggu</h2><div id="wholesale">—</div></section><section class="panel"><h2>Modal dan harga grosir</h2><div id="costs">—</div></section><section class="panel"><h2>Impor CSV</h2><p>Kolom: sku,name,slug,description,retail_price,stock_on_hand. Excel bisa disimpan sebagai CSV UTF-8.</p><a href="./volix-template.csv" download>Unduh template CSV</a><p><input type="file" id="csv" accept=".csv"></p><button id="import" class="btn btn-primary">Impor</button><p id="importMsg"></p></section><section class="panel"><h2>Laporan</h2><div id="reports"></div><button id="export" class="btn btn-light">Ekspor pesanan CSV</button></section></section></main><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.4/dist/umd/supabase.min.js"></script><script>
 const db=window.supabase.createClient('https://cnoqhoyrkzdiscyvhpek.supabase.co','sb_publishable_2seFSBXGfjrmMRD9kaJO5Q_70VqoUHY'),$=s=>document.querySelector(s),money=n=>new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR',maximumFractionDigits:0}).format(Number(n)||0),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));let ps=[],os=[],csvOut='';
 $('#loginForm').onsubmit=async e=>{e.preventDefault();const btn=$('#loginForm button[type=submit]')||$('#loginForm button');btn.disabled=true;$('#message').textContent='Memeriksa akun…';try{const {error}=await db.auth.signInWithPassword({email:$('#email').value.trim(),password:$('#password').value});if(error){$('#message').textContent='Login gagal: '+error.message;return}await start()}catch(err){$('#message').textContent='Tidak dapat login: '+(err?.message||String(err))}finally{btn.disabled=false}};
