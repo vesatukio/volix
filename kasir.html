@@ -79,6 +79,6 @@ document.getElementById("cameraBtn").onclick=async()=>{
 function stopCamera(){if(cameraTimer)clearTimeout(cameraTimer);cameraTimer=null;if(cameraStream){cameraStream.getTracks().forEach(t=>t.stop());cameraStream=null}document.getElementById("cameraVideo").srcObject=null;document.getElementById("cameraBox").classList.add("hidden")}
 document.getElementById("stopCamera").onclick=stopCamera;
 
-window.addEventListener("online",()=>{if(user)syncCloud(false)});
+
 init().catch(e=>{document.getElementById("message").textContent="Tidak bisa membuka database lokal: "+e.message;document.getElementById("backupMessage").textContent="Kesalahan penyimpanan: "+e.message});
 </script></body></html>
