@@ -397,3 +397,29 @@ button,input,textarea,select{max-width:100%;min-width:0}
  .floating-nav button span{font-size:20px!important}
  .floating-nav button small{font-size:10px!important;line-height:1.15!important}
 }
+
+/* Enforce compact phone sizing and prevent browser text autoscaling */
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+@media screen and (max-width:900px){
+ html,body{font-size:14px!important;-webkit-text-size-adjust:100%!important;text-size-adjust:100%!important}
+ .topbar{height:54px!important;min-height:54px!important;padding:5px 10px!important}
+ .brand-mark{width:29px!important;height:29px!important;font-size:16px!important}
+ .brand b{font-size:14px!important}
+ .brand small{font-size:6px!important}
+ .install-btn,.cart-pill{font-size:10px!important;min-height:32px!important;padding:7px 8px!important}
+ .hero{padding:18px 14px!important}
+ .hero .eyebrow{font-size:10px!important;line-height:1.35!important}
+ .hero h1{font-size:25px!important;line-height:1.18!important;margin:8px 0!important}
+ .hero p{font-size:14px!important;line-height:1.45!important}
+ .container{padding:20px 12px calc(110px + env(safe-area-inset-bottom))!important}
+ .shop-intro h2{font-size:23px!important;line-height:1.22!important}
+ .shop-intro .muted{font-size:13px!important;line-height:1.45!important}
+ .toolbar,.searchbox,.filters,.filter,.catalog-meta{font-size:12px!important}
+ .searchbox{height:40px!important;min-height:40px!important}
+ .product-heading .product-name{font-size:12px!important}
+ .product-brand{font-size:9px!important}
+ .watt-option,.add-btn{font-size:10px!important}
+ .floating-nav button{min-height:48px!important}
+ .floating-nav button span{font-size:20px!important}
+ .floating-nav button small{font-size:10px!important}
+}
