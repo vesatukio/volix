@@ -368,3 +368,32 @@ button,input,textarea,select{max-width:100%;min-width:0}
  .floating-nav button span{font-size:22px}
  .floating-nav button small{font-size:clamp(10px,1.8vw,13px);line-height:1.2}
 }
+
+/* Compact app-like mobile layout */
+@media(max-width:900px){
+ html{font-size:14px}
+ body{font-size:14px;line-height:1.4}
+ .topbar{min-height:54px!important;height:54px!important;padding:5px 10px!important;overflow:hidden}
+ .brand{max-width:35%;gap:5px}
+ .brand-mark{width:29px;height:29px;flex-basis:29px;font-size:16px}
+ .brand b{font-size:14px!important;letter-spacing:.5px!important}
+ .brand small{font-size:6px!important;letter-spacing:.4px!important}
+ .top-actions{gap:4px}
+ .install-btn,.cart-pill{font-size:10px!important;padding:7px 8px!important;min-height:32px!important}
+ .hero{padding:18px 14px 20px!important}
+ .hero .eyebrow{font-size:10px!important;letter-spacing:1px!important;line-height:1.35!important}
+ .hero h1{font-size:25px!important;line-height:1.18!important;letter-spacing:-.4px!important;margin:8px 0!important}
+ .hero p{font-size:14px!important;line-height:1.45!important;margin:6px 0 0!important}
+ .container{padding:20px 12px calc(110px + env(safe-area-inset-bottom))!important}
+ .shop-intro{margin-bottom:12px!important}
+ .shop-intro .eyebrow,.shop-intro .section-label{font-size:10px!important;letter-spacing:1.5px!important}
+ .shop-intro h2{font-size:23px!important;line-height:1.22!important;margin:6px 0!important;letter-spacing:-.3px!important}
+ .shop-intro .muted{font-size:13px!important;line-height:1.45!important}
+ .toolbar{margin:10px 0 12px!important}
+ .searchbox{height:40px!important;min-height:40px!important}
+ .filter{font-size:11px!important}
+ .floating-nav{width:calc(100% - 24px)!important;max-width:460px!important;border-radius:18px!important}
+ .floating-nav button{min-height:48px!important;padding:4px 2px!important}
+ .floating-nav button span{font-size:20px!important}
+ .floating-nav button small{font-size:10px!important;line-height:1.15!important}
+}
