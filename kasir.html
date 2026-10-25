@@ -82,7 +82,7 @@ function addShipmentItem(sku="",qty=1){
 function updateShipmentSummary(){const rows=[...document.querySelectorAll("#shipmentItems .shipment-item")];const units=rows.reduce((n,r)=>n+Math.max(1,Number(r.querySelector('input[type="number"]').value)||1),0);document.getElementById("shipmentSummary").textContent=rows.length+" SKU · "+units+" barang";}
 async function showShipment(code,qty=1){
  const shipments=await all("shipments");const old=shipments.find(x=>String(x.tracking).toUpperCase()===code.toUpperCase());
- if(old){document.getElementById("message").textContent="Resi sudah tercatat: "+code+" ("+old.status+"). Tidak ditambahkan ulang.";return}
+ if(old){document.getElementById("message").textContent="Resi sudah tercatat: "+code+" ("+old.status+"). Tidak ditambahkan ulang.";cameraBusy=false;if(cameraStream){cameraScanMode=true;cameraScanTick()}return}
  pendingTracking=code;pendingQty=qty;document.getElementById("trackingInput").value=code;document.getElementById("shipmentItems").innerHTML="";addShipmentItem("",qty);
  document.getElementById("shipmentPanel").classList.remove("hidden");
  document.getElementById("message").textContent="Pilih semua SKU dalam resi ini. Resi yang sama hanya dicatat sekali.";
