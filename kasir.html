@@ -155,13 +155,19 @@ async function startCameraScanner(mode="resi"){
        if(cameraScanMode){
         const normalized=code.toUpperCase();
         const p=products.find(x=>String(x.sku).toUpperCase()===normalized);
-        if(p){document.getElementById("skuInput").value=code;document.getElementById("message").textContent="Barcode terbaca sebagai SKU, bukan resi. Scan barcode resi atau masukkan nomor resi."}
-        else {await showShipment(code,1)}
+        if(p){document.getElementById("skuInput").value=code;document.getElementById("message").textContent="Barcode terbaca sebagai SKU, bukan resi. Scan barcode resi atau masukkan nomor resi.";cameraBusy=false}
+        else {
+         await showShipment(code,1);
+         cameraBusy=true;
+         hint.textContent="Resi terbaca. Lengkapi SKU lalu tekan Sukses kirim atau Gagal kirim. Setelah disimpan, kamera siap untuk resi berikutnya.";
+         return;
+        }
        }else{
         document.getElementById("skuInput").value=code;
         await document.getElementById("scanForm").requestSubmit();
+        cameraBusy=false;
        }
-       if(cameraStream){cameraBusy=false;hint.textContent="Resi siap dipindai berikutnya. Arahkan ke barcode resi.";cameraTimer=setTimeout(cameraScanTick,700)}
+       if(cameraStream){hint.textContent="Siap scan resi berikutnya. Arahkan ke barcode resi.";cameraTimer=setTimeout(cameraScanTick,700)}
        return;
       }
      }
