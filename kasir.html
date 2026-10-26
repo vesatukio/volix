@@ -138,8 +138,22 @@ function chooseSkuForAction(action){
  list.innerHTML='<label style="display:block;margin-bottom:6px;font-weight:700">Pilih SKU yang ingin '+(action==="edit"?"diedit":"dihapus")+'</label><select id="skuQuickSelect" style="width:100%;margin-bottom:8px">'+products.map(p=>'<option value="'+esc(p.sku)+'">'+esc(p.sku)+' — '+esc(p.name)+'</option>').join("")+'</select><button type="button" id="skuQuickGo" class="primary">'+(action==="edit"?"Buka Edit":"Hapus SKU terpilih")+'</button>';
  document.getElementById("skuQuickGo").onclick=async()=>{
   const sku=document.getElementById("skuQuickSelect").value;
-  if(action==="edit"){const btn=document.querySelector('[data-edit-sku="'+CSS.escape(sku)+'"]');if(btn){btn.click();return}
-   const p=products.find(x=>x.sku===sku);if(!p)return;editingProductSku=p.sku;document.getElementById("pSku").value=p.sku;document.getElementById("pName").value=p.name||"";document.getElementById("pPrice").value=Number(p.price)||0;document.getElementById("pCost").value=Number(p.cost)||0;document.getElementById("pAdmin").value=Number(p.admin)||0;document.querySelector('#productForm button[type="submit"]').textContent="Simpan perubahan";document.getElementById("productEditor").classList.remove("hidden");document.getElementById("productEditor").scrollIntoView({behavior:"smooth",block:"center"});return}
+  if(action==="edit"){
+   const p=products.find(x=>String(x.sku)===String(sku));if(!p){list.textContent="SKU tidak ditemukan. Tutup lalu buka menu Edit SKU lagi.";return}
+   editingProductSku=p.sku;
+   document.getElementById("pSku").disabled=false;
+   document.getElementById("pSku").value=p.sku;
+   document.getElementById("pName").value=p.name||"";
+   document.getElementById("pPrice").value=Number(p.price)||0;
+   document.getElementById("pCost").value=Number(p.cost)||0;
+   document.getElementById("pAdmin").value=Number(p.admin)||0;
+   document.querySelector('#productForm button[type="submit"]').textContent="Simpan perubahan";
+   document.getElementById("productEditor").classList.remove("hidden");
+   document.getElementById("productsToggle").textContent="Tutup kelola SKU";
+   document.getElementById("productEditor").scrollIntoView({behavior:"smooth",block:"center"});
+   list.textContent="Form edit SKU "+p.sku+" sudah dibuka.";
+   return
+  }
   if(!confirm("Yakin hapus SKU "+sku+" dari katalog? Riwayat penjualan lama tidak dihapus."))return;
   await del("products",sku);products=await all("products");renderProducts();list.textContent="SKU "+sku+" sudah dihapus dari katalog.";
  };
