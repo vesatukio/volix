@@ -2,7 +2,7 @@
   "name": "VOLIX Kasir",
   "short_name": "VOLIX",
   "description": "Kasir dan laporan penjualan VOLIX",
-  "start_url": "./kasir.html",
+  "start_url": "./scan.html",
   "scope": "./",
   "display": "standalone",
   "background_color": "#f5f7fb",
