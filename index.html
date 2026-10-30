@@ -2,6 +2,41 @@
 <html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#102b54"><title>VOLIX Mitra Sejati — Katalog & Kalkulator Harga</title>
 <style>
 :root{--navy:#102b54;--blue:#2563eb;--bg:#f3f6fb;--ink:#18243a;--muted:#64748b;--line:#dce4ef;--green:#087443;--red:#b42318}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,Segoe UI,sans-serif}header{background:var(--navy);color:white;padding:18px max(16px,calc((100% - 1100px)/2));display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}header a{color:white;text-decoration:none;font-weight:800}header small{display:block;color:#c7d8f4;font-size:11px;letter-spacing:1.5px}.wrap{max-width:1100px;margin:auto;padding:20px 15px 80px}.hero{background:linear-gradient(120deg,#102b54,#2458a6);border-radius:18px;padding:24px;color:white;margin-bottom:18px}.hero h1{margin:4px 0;font-size:clamp(25px,4vw,36px)}.hero p{margin:4px 0;color:#e1ebff}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0}.tab,button,.btn{border:0;border-radius:10px;padding:10px 14px;font:inherit;font-weight:700;cursor:pointer}.tab{background:#e2e8f0;color:#334155}.tab.active{background:var(--navy);color:white}button.primary{background:var(--blue);color:white}button.secondary{background:#e8eef8;color:#17325d}button.danger{background:#fee4e2;color:var(--red)}input,select{width:100%;border:1px solid #cbd5e1;border-radius:9px;padding:10px;font:inherit;background:white;color:var(--ink)}label{display:block;font-size:13px;color:#475569;font-weight:650;margin-bottom:10px}label input,label select{display:block;margin-top:5px}.card{background:white;border:1px solid var(--line);border-radius:14px;padding:16px;margin:12px 0;box-shadow:0 3px 12px #142c4b08}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}.stat{font-size:13px;color:var(--muted)}.stat strong{display:block;font-size:23px;color:var(--navy)}.toolbar{display:grid;grid-template-columns:2fr 1fr;gap:10px;margin-bottom:14px}.products{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}.product{overflow:hidden;padding:0;border:0;box-shadow:0 5px 18px #102b5418}.product-body{padding:14px 16px 16px}.catalog-profit{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin:10px 0}.catalog-profit>div{background:#f1f5f9;border-radius:9px;padding:8px;min-width:0}.catalog-profit>div:first-child{grid-column:1/-1}.catalog-profit span{display:block;font-size:11px;color:#64748b}.catalog-profit strong{display:block;font-size:15px;overflow-wrap:anywhere}.catalog-profit .profit-good{color:#087443}.catalog-profit .profit-loss{color:#b42318}.product h3{margin:5px 0 3px}.product-image{width:100%;height:175px;display:block;object-fit:cover;background:#e7eef8}.product-placeholder{height:175px;display:flex;align-items:center;justify-content:center;font-size:62px;background:linear-gradient(135deg,var(--card-a,#dbeafe),var(--card-b,#eff6ff));color:#17325d}.type-RKS{--card-a:#dbeafe;--card-b:#eff6ff}.type-RK3{--card-a:#d1fae5;--card-b:#ecfdf5}.type-RK4{--card-a:#ffedd5;--card-b:#fff7ed}.type-RKARD2L{--card-a:#fce7f3;--card-b:#fdf2f8}.type-RKARD3{--card-a:#ede9fe;--card-b:#f5f3ff}.type-RKARD4{--card-a:#fef3c7;--card-b:#fffbeb}.name-field{font-weight:800;color:var(--navy)}.sku{font-size:12px;color:var(--muted);font-weight:750}.price{font-size:22px;font-weight:850;color:var(--navy);margin:8px 0}.muted{color:var(--muted);font-size:13px}.badge{display:inline-block;border-radius:99px;padding:3px 8px;background:#e0f2fe;color:#075985;font-size:11px;font-weight:800}.profit-good{color:var(--green);font-weight:800}.profit-low{color:#a15c00;font-weight:800}.profit-loss{color:var(--red);font-weight:800}.row-actions{display:flex;gap:7px;flex-wrap:wrap}.row-actions button{padding:7px 10px;font-size:13px}.table-wrap{overflow:auto}table{border-collapse:collapse;width:100%;min-width:760px;font-size:13px}th,td{padding:10px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}th:first-child,td:first-child{text-align:left}th{background:#f8fafc;color:#475569}.formgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px}.hidden{display:none!important}.notice{background:#fff7df;border:1px solid #f5d98c;border-radius:10px;padding:12px;font-size:13px;color:#704c00}.section-title{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}footer{text-align:center;color:var(--muted);font-size:12px;padding:20px}.small{font-size:12px;color:var(--muted)}@media(max-width:600px){.toolbar{grid-template-columns:1fr}.hero{padding:19px}.wrap{padding-top:12px}.card{padding:13px}}
+
+/* Tampilan ponsel: dua kartu sejajar dan navigasi bawah selalu terlihat */
+.bottom-nav{display:none}
+@media(max-width:600px){
+  .wrap{padding:12px 10px calc(100px + env(safe-area-inset-bottom))}
+  .products{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+  .product{min-width:0;border-radius:12px}
+  .product-image,.product-placeholder{height:112px}
+  .product-body{padding:10px}
+  .product h3{font-size:13px;line-height:1.35;min-height:35px}
+  .product .sku{font-size:10px}
+  .product .price{font-size:15px;line-height:1.35;margin:7px 0}
+  .product .muted{font-size:11px}
+  .catalog-profit{gap:5px;margin:8px 0}
+  .catalog-profit>div{padding:6px;border-radius:7px}
+  .catalog-profit span{font-size:9px;line-height:1.25}
+  .catalog-profit strong{font-size:12px}
+  .badge{font-size:9px;padding:2px 6px}
+  .bottom-nav{
+    display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;
+    position:fixed;left:10px;right:10px;bottom:calc(8px + env(safe-area-inset-bottom));
+    z-index:1000;padding:7px 6px;background:rgba(255,255,255,.97);
+    border:1px solid #dce4ef;border-radius:17px;
+    box-shadow:0 8px 28px rgba(16,43,84,.2);backdrop-filter:blur(14px)
+  }
+  .bottom-nav .tab{
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:3px;min-width:0;padding:7px 2px;border-radius:11px;
+    background:transparent;color:#64748b;font-size:10px;line-height:1.2;
+    white-space:nowrap
+  }
+  .bottom-nav .tab .nav-icon{font-size:18px;line-height:1.1}
+  .bottom-nav .tab.active{background:#eaf1ff;color:#173d78}
+}
+
 </style></head><body>
 <header><a href="./">VOLIX <small>MITRA SEJATI</small></a><a href="./">← Kembali ke katalog lampu</a></header>
 <div class="wrap"><section class="hero"><div style="font-size:12px;letter-spacing:1.5px;font-weight:800">KATALOG TAMBAHAN VOLIX</div><h1>Stop Kontak Berkabel</h1><p>Pilih panjang kabel, kelola harga jual, dan hitung laba Shopee dalam satu halaman.</p></section>
@@ -12,6 +47,12 @@
 <section id="calc" class="hidden"><h2>Kalkulator Harga Shopee</h2><div class="card"><div class="formgrid"><label>Harga jual produk (Rp)<input id="calcPrice" type="number" min="0" value="11600"></label><label>Modal produk (Rp)<input id="calcModal" type="number" min="0" value="7300"></label><label>Biaya admin (%)<input id="calcPercent" type="number" min="0" max="100" step="0.1" value="10"></label><label>Biaya pembayaran Shopee Mall (%)<input id="calcMall" type="number" min="0" max="100" step="0.1" value="0"></label><label>Biaya proses pesanan (Rp)<input id="calcFixed" type="number" min="0" value="1250"></label><label>Gratis Ongkir XTRA (%)<input id="calcXtra" type="number" min="0" max="100" step="0.1" value="6.5"></label><label>Biaya program lain (%)<input id="calcOtherPercent" type="number" min="0" max="100" step="0.1" value="0"></label><label>Biaya lainnya (Rp)<input id="calcOtherFixed" type="number" min="0" value="0"></label><label>Target laba bersih (Rp)<input id="calcTarget" type="number" min="0" value="2000"></label></div><button class="primary" id="calculate">Hitung Estimasi Hasil</button><div id="calcResult" class="card hidden"></div><p class="small">Tarif dapat diubah sesuai rincian biaya di Seller Centre. Gratis Ongkir XTRA dan biaya program lain hanya dihitung jika toko mengikutinya. Hasil merupakan estimasi.</p></div></section>
 <section id="backup" class="hidden"><h2>Cadangan & Pemindahan Data</h2><div class="card"><p>Ekspor untuk menyimpan semua SKU dalam file JSON. Impor file tersebut untuk memulihkan data atau memindahkannya ke browser lain.</p><div class="row-actions"><button class="primary" id="export">Ekspor Data JSON</button><label class="secondary" style="display:inline-block;margin:0;padding:10px 14px;border-radius:10px;cursor:pointer">Impor Data JSON<input id="import" type="file" accept=".json,application/json" style="display:none"></label><button class="danger" id="reset">Kembalikan Data Awal</button></div><p id="backupMsg" class="muted"></p></div></section>
 <footer>VOLIX Mitra Sejati · Katalog Stop Kontak & Kalkulator Harga · Data lokal browser</footer></div>
+<nav class="bottom-nav" aria-label="Menu utama">
+<button type="button" class="tab active" data-tab="catalog"><span class="nav-icon">▦</span><span>Katalog</span></button>
+<button type="button" class="tab" data-tab="admin"><span class="nav-icon">⚙</span><span>Admin</span></button>
+<button type="button" class="tab" data-tab="calc"><span class="nav-icon">％</span><span>Kalkulator</span></button>
+<button type="button" class="tab" data-tab="backup"><span class="nav-icon">⇅</span><span>Cadangan</span></button>
+</nav>
 <script>
 const KEY='volix_stopkontak_v1';
 const initial=[
