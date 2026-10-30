@@ -70,7 +70,27 @@
  .switch-nav a.active{background:#102b54;color:#fff}
  body{padding-bottom:75px}
 }
-.topnav .navlink{white-space:nowrap}@media(max-width:600px){header{align-items:flex-start}.topnav{flex-wrap:wrap}.topnav .navlink{padding:7px 9px;font-size:12px}}</style></head><body>
+.topnav .navlink{white-space:nowrap}@media(max-width:600px){header{align-items:flex-start}.topnav{flex-wrap:wrap}.topnav .navlink{padding:7px 9px;font-size:12px}}/* Admin: satu kartu induk per jenis produk, varian tetap bisa dikelola satu per satu. */
+#admin #rows .group-row td{padding:0;border:0;text-align:left;white-space:normal}
+.admin-group{border:1px solid var(--line);border-radius:13px;background:#fff;padding:13px;margin:5px 0}
+.admin-group-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+.admin-variants{display:grid;gap:8px;padding-top:9px}
+.admin-variant{display:grid;grid-template-columns:1fr repeat(5,minmax(70px,.8fr)) auto;align-items:center;gap:10px;padding:9px;background:#f8fafc;border-radius:9px;font-size:12px}
+.admin-variant small{display:block;color:var(--muted);font-size:10px}
+.admin-variant .row-actions{justify-content:flex-end;flex-wrap:nowrap}
+.admin-variant .row-actions button{padding:6px 8px;font-size:11px}
+.variant-edit-card{border:1px solid var(--line);border-radius:12px;padding:12px;margin:12px 0;background:#f8fafc}
+@media(max-width:600px){
+ .admin-group{padding:10px}
+ .admin-group-head{align-items:flex-start}
+ .admin-group-head button{font-size:11px;padding:8px}
+ .admin-variant{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;padding:9px}
+ .admin-variant>div:first-child{grid-column:1/-1}
+ .admin-variant .row-actions{grid-column:1/-1;display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
+ .admin-variant .row-actions button{padding:8px 2px}
+ #admin table{min-width:0}
+}
+</style></head><body>
 <header><a href="./">VOLIX <small>MITRA SEJATI</small></a><nav class="topnav"><a class="navlink current" href="./">Katalog & Harga</a><a class="navlink" href="./kasir/">Kasir</a><a class="navlink" href="./scan.html">Scan Resi</a></nav></header>
 <div class="wrap"><section class="hero"><div style="font-size:12px;letter-spacing:1.5px;font-weight:800">KATALOG TAMBAHAN VOLIX</div><h1>Stop Kontak Berkabel</h1><p>Pilih panjang kabel, kelola harga jual, dan hitung laba Shopee dalam satu halaman.</p></section>
 <div class="notice">Data produk dan pengaturan disimpan di browser perangkat ini. Gunakan Ekspor Data secara berkala sebagai cadangan. Data tidak otomatis tersinkron ke perangkat lain.</div>
@@ -120,7 +140,31 @@ function renderCatalog(){
   return '<article class="card product type-'+safe(g.type)+'">'+image+'<div class="product-placeholder" style="'+(chosen.image?'display:none;':'')+'">🔌</div><div class="product-body"><span class="badge">'+safe(g.type)+'</span><h3>'+title+'</h3><div class="variant-label">Pilih panjang kabel</div><div class="variant-list">'+g.items.map(p=>'<button type="button" class="variant-btn '+(p.sku===chosen.sku?'active':'')+'" data-variant="'+safe(p.sku)+'" data-type="'+safe(g.type)+'">'+p.meters+' m</button>').join('')+'</div><div class="sku">'+safe(chosen.sku)+' · Kabel '+chosen.meters+' meter</div><div class="price">'+(chosen.price==null?'Belum ditentukan':rupiah(chosen.price))+'</div><div class="catalog-profit"><div><span>Harga modal</span><strong>'+rupiah(cost)+'</strong></div><div><span>Laba nominal</span><strong class="'+(profit==null?'':profit>=0?'profit-good':'profit-loss')+'">'+rupiah(profit)+'</strong></div><div><span>Laba (%)</span><strong class="'+(profit==null?'':profit>=0?'profit-good':'profit-loss')+'">'+(pct==null?'—':pct.toLocaleString('id-ID',{maximumFractionDigits:2})+'%')+'</strong></div></div><div class="muted">Stok: '+(chosen.stock||0)+'</div></div></article>';
  }).join('')||'<div class="card">Belum ada produk yang cocok dengan pencarian.</div>';
 }
-function renderAdmin(){let active=data.filter(p=>p.active).length,missing=data.filter(p=>p.price==null).length,low=data.filter(p=>laba(p)!==null&&laba(p)<2000).length;document.getElementById('stats').innerHTML=[['Total SKU',data.length],['Produk aktif',active],['Belum ada harga',missing],['Laba di bawah Rp2.000',low]].map(s=>'<div class="card stat">'+s[0]+'<strong>'+s[1]+'</strong></div>').join('');document.getElementById('rows').innerHTML=data.map((p,i)=>'<tr><td><b>'+safe(p.name||p.sku)+'</b><br><span class="muted">'+safe(p.sku)+' · '+safe(p.type)+'</span></td><td>'+p.meters+' m</td><td>'+rupiah(modal(p))+'</td><td>'+rupiah(p.price)+'</td><td>'+rupiah(p.fee)+'</td><td class="'+(laba(p)==null?'':laba(p)<0?'profit-loss':laba(p)<2000?'profit-low':'profit-good')+'">'+rupiah(laba(p))+'</td><td>'+(p.active?'Aktif':'Disembunyikan')+'</td><td><div class="row-actions"><button class="secondary" onclick="editProduct('+i+')">Edit</button><button class="secondary" onclick="moveProduct('+i+',-1)" '+(i===0?'disabled':'')+'>↑</button><button class="secondary" onclick="moveProduct('+i+',1)" '+(i===data.length-1?'disabled':'')+'>↓</button><button class="danger" onclick="deleteProduct('+i+')">Hapus</button></div></td></tr>').join('')}
+function renderAdmin(){
+ let active=data.filter(p=>p.active).length,missing=data.filter(p=>p.price==null).length,low=data.filter(p=>laba(p)!==null&&laba(p)<2000).length;
+ document.getElementById('stats').innerHTML=[['Total SKU',data.length],['Produk aktif',active],['Belum ada harga',missing],['Laba di bawah Rp2.000',low]].map(s=>'<div class="card stat">'+s[0]+'<strong>'+s[1]+'</strong></div>').join('');
+ const groups=[...new Set(data.map(p=>p.type))].map(type=>({type,items:data.map((p,i)=>({...p,_i:i})).filter(p=>p.type===type).sort((a,b)=>Number(a.meters)-Number(b.meters))}));
+ document.getElementById('rows').innerHTML=groups.map(g=>{
+  const title=({RKS:'Stop Kontak 2 Lubang',RK3:'Stop Kontak 3 Lubang',RK4:'Stop Kontak 4 Lubang',RKARD2L:'Stop Kontak 2 Lubang Arde',RKARD3:'Stop Kontak 3 Lubang Arde',RKARD4:'Stop Kontak 4 Lubang Arde'}[g.type]||g.type);
+  return '<tr class="group-row"><td colspan="8"><div class="admin-group"><div class="admin-group-head"><div><b>'+title+'</b><div class="muted">'+g.items.length+' varian · '+safe(g.type)+'</div></div><button class="primary" onclick="editVariantGroup(\''+safe(g.type)+'\')">Edit semua varian</button></div><div class="admin-variants">'+g.items.map(p=>'<div class="admin-variant"><div><b>'+p.meters+' meter</b><div class="muted">'+safe(p.sku)+'</div></div><div><small>Modal</small><b>'+rupiah(modal(p))+'</b></div><div><small>Harga jual</small><b>'+rupiah(p.price)+'</b></div><div><small>Admin Shopee</small><b>'+rupiah(p.fee)+'</b></div><div><small>Laba bersih</small><b class="'+(laba(p)==null?'':laba(p)<0?'profit-loss':laba(p)<2000?'profit-low':'profit-good')+'">'+rupiah(laba(p))+'</b></div><div><small>Status</small><b>'+(p.active?'Aktif':'Disembunyikan')+'</b></div><div class="row-actions"><button class="secondary" onclick="editProduct('+p._i+')">Edit SKU</button><button class="secondary" onclick="moveProduct('+p._i+',-1)">↑</button><button class="secondary" onclick="moveProduct('+p._i+',1)">↓</button><button class="danger" onclick="deleteProduct('+p._i+')">Hapus</button></div></div>').join('')+'</div></div></td></tr>';
+ }).join('');
+}
+window.editVariantGroup=function(type){
+ const items=data.map((p,i)=>({...p,_i:i})).filter(p=>p.type===type).sort((a,b)=>Number(a.meters)-Number(b.meters));
+ if(!items.length)return;
+ const title=({RKS:'Stop Kontak 2 Lubang',RK3:'Stop Kontak 3 Lubang',RK4:'Stop Kontak 4 Lubang',RKARD2L:'Stop Kontak 2 Lubang Arde',RKARD3:'Stop Kontak 3 Lubang Arde',RKARD4:'Stop Kontak 4 Lubang Arde'}[type]||type);
+ let box=document.getElementById('variantGroupEditor');
+ if(!box){box=document.createElement('div');box.id='variantGroupEditor';box.className='card';document.getElementById('editor').after(box)}
+ box.innerHTML='<div class="section-title"><div><h3>Edit semua varian</h3><div class="muted">'+title+' · '+items.length+' SKU</div></div><button type="button" class="secondary" onclick="document.getElementById(\'variantGroupEditor\').classList.add(\'hidden\')">Tutup</button></div><p class="small">Ubah harga, modal, stok, atau status tiap panjang kabel dalam satu kali penyimpanan.</p>'+items.map(p=>'<div class="variant-edit-card" data-index="'+p._i+'"><b>'+safe(p.sku)+' · '+p.meters+' meter</b><div class="formgrid"><label>SKU<input data-field="sku" value="'+safe(p.sku)+'" required></label><label>Panjang kabel (m)<input data-field="meters" type="number" min="0" value="'+p.meters+'"></label><label>Harga kabel/m<input data-field="cable" type="number" min="0" value="'+p.cable+'"></label><label>Harga stop kontak<input data-field="socket" type="number" min="0" value="'+p.socket+'"></label><label>Harga jack<input data-field="jack" type="number" min="0" value="'+p.jack+'"></label><label>Packing<input data-field="packing" type="number" min="0" value="'+p.packing+'"></label><label>Harga jual<input data-field="price" type="number" min="0" value="'+(p.price??'')+'" placeholder="Belum ditentukan"></label><label>Admin Shopee<input data-field="fee" type="number" min="0" value="'+(p.fee??'')+'" placeholder="Belum diketahui"></label><label>Stok<input data-field="stock" type="number" min="0" value="'+(p.stock??0)+'"></label><label>Status<select data-field="active"><option value="true" '+(p.active?'selected':'')+'>Aktif</option><option value="false" '+(!p.active?'selected':'')+'>Disembunyikan</option></select></label></div></div>').join('')+'<div class="row-actions"><button type="button" class="primary" id="saveVariantGroup">Simpan semua varian</button><button type="button" class="secondary" onclick="document.getElementById(\'variantGroupEditor\').classList.add(\'hidden\')">Batal</button></div>';
+ box.classList.remove('hidden');
+ document.getElementById('saveVariantGroup').onclick=()=>{
+  const cards=[...box.querySelectorAll('.variant-edit-card')],seen=new Set();
+  for(const card of cards){const sku=card.querySelector('[data-field="sku"]').value.trim();if(!sku||seen.has(sku)||data.some((p,i)=>p.sku===sku&&!cards.some(c=>Number(c.dataset.index)===i))){alert('SKU kosong atau sudah digunakan. Periksa kembali.');return}seen.add(sku)}
+  cards.forEach(card=>{const p=data[Number(card.dataset.index)];card.querySelectorAll('[data-field]').forEach(el=>{const k=el.dataset.field,v=el.value;p[k]=k==='active'?v==='true':['price','fee'].includes(k)&&v===''?null:k==='sku'?v.trim():Number(v)})});
+  save();box.classList.add('hidden');alert('Semua varian '+title+' berhasil disimpan.');
+ };
+ box.scrollIntoView({behavior:'smooth',block:'start'});
+};
 function editProduct(i){const p=i==null?{name:'',sku:'',type:'RKS',meters:1,cable:1200,socket:4200,jack:1300,packing:500,price:'',fee:'',stock:0,active:true,image:''}:data[i];document.getElementById('editor').classList.remove('hidden');document.getElementById('editorTitle').textContent=i==null?'Tambah SKU':'Edit '+p.sku;const form=document.getElementById('productForm');form.dataset.index=i==null?'':i;Object.keys(p).forEach(k=>{if(form.elements[k]&&form.elements[k].type!=='file')form.elements[k].value=p[k]??''});document.getElementById('imagePreviewWrap').classList.toggle('hidden',!p.image);document.getElementById('imagePreview').src=p.image||'';document.getElementById('editor').scrollIntoView({behavior:'smooth',block:'start'})}
 window.editProduct=editProduct;window.moveProduct=(i,d)=>{let j=i+d;if(j<0||j>=data.length)return;[data[i],data[j]]=[data[j],data[i]];save()};window.deleteProduct=i=>{if(confirm('Hapus SKU '+data[i].sku+'?')){data.splice(i,1);save()}};
 document.getElementById('productImageFile').onchange=e=>{const file=e.target.files[0];if(!file)return;const img=document.getElementById('imagePreview');img.src=URL.createObjectURL(file);document.getElementById('imagePreviewWrap').classList.remove('hidden')};document.getElementById('newProduct').onclick=()=>editProduct(null);document.getElementById('cancelEdit').onclick=()=>document.getElementById('editor').classList.add('hidden');
