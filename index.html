@@ -163,7 +163,7 @@ window.editVariantGroup=function(type){
   cards.forEach(card=>{const p=data[Number(card.dataset.index)];card.querySelectorAll('[data-field]').forEach(el=>{const k=el.dataset.field,v=el.value;p[k]=k==='active'?v==='true':['price','fee'].includes(k)&&v===''?null:k==='sku'?v.trim():Number(v)})});
   save();box.classList.add('hidden');alert('Semua varian '+title+' berhasil disimpan.');
  };
- box.scrollIntoView({behavior:'smooth',block:'start'});
+ // Pertahankan posisi gulir saat editor varian dibuka.
 };
 function editProduct(i){const p=i==null?{name:'',sku:'',type:'RKS',meters:1,cable:1200,socket:4200,jack:1300,packing:500,price:'',fee:'',stock:0,active:true,image:''}:data[i];document.getElementById('editor').classList.remove('hidden');document.getElementById('editorTitle').textContent=i==null?'Tambah SKU':'Edit '+p.sku;const form=document.getElementById('productForm');form.dataset.index=i==null?'':i;Object.keys(p).forEach(k=>{if(form.elements[k]&&form.elements[k].type!=='file')form.elements[k].value=p[k]??''});document.getElementById('imagePreviewWrap').classList.toggle('hidden',!p.image);document.getElementById('imagePreview').src=p.image||'';document.getElementById('editor').scrollIntoView({behavior:'smooth',block:'start'})}
 window.editProduct=editProduct;window.moveProduct=(i,d)=>{let j=i+d;if(j<0||j>=data.length)return;[data[i],data[j]]=[data[j],data[i]];save()};window.deleteProduct=i=>{if(confirm('Hapus SKU '+data[i].sku+'?')){data.splice(i,1);save()}};
