@@ -47,7 +47,7 @@
  body{padding-bottom:75px}
 }
 </style></head><body>
-<header><a href="./">VOLIX <small>MITRA SEJATI</small></a><nav class="topnav"><a class="navlink current" href="./">Katalog & Harga</a><a class="navlink" href="./kasir/">Kasir</a></nav></header>
+<header><a href="./">VOLIX <small>MITRA SEJATI</small></a><nav class="topnav"><a class="navlink current" href="./">Katalog & Harga</a><a class="navlink" href="./scan/">Kasir</a></nav></header>
 <div class="wrap"><section class="hero"><div style="font-size:12px;letter-spacing:1.5px;font-weight:800">KATALOG TAMBAHAN VOLIX</div><h1>Stop Kontak Berkabel</h1><p>Pilih panjang kabel, kelola harga jual, dan hitung laba Shopee dalam satu halaman.</p></section>
 <div class="notice">Data produk dan pengaturan disimpan di browser perangkat ini. Gunakan Ekspor Data secara berkala sebagai cadangan. Data tidak otomatis tersinkron ke perangkat lain.</div>
 <div class="tabs"><button class="tab active" data-tab="catalog">Katalog Produk</button><button class="tab" data-tab="admin">Admin & Harga</button><button class="tab" data-tab="calc">Kalkulator Harga</button><button class="tab" data-tab="backup">Cadangan Data</button></div>
@@ -108,5 +108,5 @@ document.getElementById('export').onclick=()=>{let blob=new Blob([JSON.stringify
 document.getElementById('import').onchange=async e=>{try{let obj=JSON.parse(await e.target.files[0].text());let list=Array.isArray(obj)?obj:obj.products;if(!Array.isArray(list)||!list.every(p=>p.sku&&p.type))throw Error('Format file tidak cocok');if(confirm('Impor akan mengganti data produk saat ini. Lanjutkan?')){data=list;save();document.getElementById('backupMsg').textContent='Data berhasil diimpor.'}}catch(err){alert('Gagal impor: '+err.message)}e.target.value=''};
 document.getElementById('reset').onclick=()=>{if(confirm('Kembalikan semua data ke data awal? Data lokal saat ini akan diganti.')){data=initial.map(x=>({...x}));save();document.getElementById('backupMsg').textContent='Data awal dipulihkan.'}};
 renderCatalog();renderAdmin();
-</script><nav class="switch-nav" aria-label="Pindah halaman"><a class="active" href="./">▦ Katalog &amp; Harga</a><a href="./kasir/">▣ Kasir</a></nav>
+</script><nav class="switch-nav" aria-label="Pindah halaman"><a class="active" href="./">▦ Katalog &amp; Harga</a><a href="./scan/">▣ Kasir</a></nav>
 </body></html>
