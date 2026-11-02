@@ -33,10 +33,8 @@ input[type=number],select{width:100%;padding:10px;border:1px solid #dce3ed;borde
 <section class="card"><h2>2. Pengaturan kertas A4</h2>
 <div class="grid">
 <label class="field">Resi per lembar<select id="layout"><option value="8" selected>8 resi per lembar</option><option value="6">6 resi per lembar</option><option value="4">4 resi per lembar</option><option value="2">2 resi per lembar</option><option value="1">1 resi per lembar</option></select></label><label class="field">Ukuran kertas<select id="paper"><option value="a4">A4</option><option value="f4">F4 / Folio</option></select></label>
-<label class="field">Lebar resi<select id="width"><option value="100">10 cm</option><option value="95">9,5 cm</option><option value="90">9 cm</option></select></label>
 <label class="field">Geser kanan/kiri (mm)<input id="x" type="number" value="0" min="-50" max="50"></label>
 <label class="field">Geser atas/bawah (mm)<input id="y" type="number" value="0" min="-50" max="50"></label>
-<label class="field">Skala (%)<input id="scale" type="number" value="100" min="50" max="150"></label>
 <label class="field">Jarak antar resi (mm)<input id="gap" type="number" value="0" min="0" max="30"></label>
 </div><div class="row"><button class="secondary" id="reset">Reset posisi</button><button class="secondary" id="refresh">Perbarui pratinjau</button></div>
 <p class="muted">Geser horizontal positif = ke kanan. Geser vertikal positif = ke bawah.</p></section>
@@ -45,7 +43,7 @@ input[type=number],select{width:100%;padding:10px;border:1px solid #dce3ed;borde
 <button class="secondary" id="testBtn" disabled>🧪 Test print (1 resi)</button>
 <button class="primary" id="printBtn" disabled>🖨️ Cetak semua resi</button></div>
 <p class="muted">Test print hanya mencetak resi pertama. Cetak semua mencetak seluruh halaman PDF sesuai susunan yang dipilih.</p>
-<p class="muted">Pada dialog cetak Android: pilih Epson L565, kertas A4, orientasi Potret, skala 100% atau Default. Jika Epson tidak muncul, aktifkan layanan cetak Android atau gunakan Epson iPrint.</p>
+<p class="muted">Pada dialog cetak Android: pilih Epson L565, ukuran kertas yang sama (A4 atau F4 jika tersedia), orientasi Potret, skala 100% atau Default. Jika Epson tidak muncul, aktifkan layanan cetak Android atau gunakan Epson iPrint.</p>
 <div class="status" id="printStatus">Pastikan HP dan Epson L565 terhubung ke Wi-Fi yang sama.</div></section>
 </main><div id="printArea"></div>
 <footer>Pemrosesan PDF berlangsung di browser. Internet diperlukan untuk memuat pustaka PDF.js.</footer>
