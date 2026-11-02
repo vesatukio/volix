@@ -12,7 +12,7 @@ main{max-width:820px;margin:auto;padding:12px;display:grid;gap:12px}.card{backgr
 h2{font-size:16px;margin:0 0 12px}.muted{font-size:13px;color:#64748b;line-height:1.45}
 button,.filelabel{border:0;border-radius:10px;padding:12px;font:600 14px system-ui;cursor:pointer}
 .primary{background:#153e75;color:white;width:100%}.secondary,.filelabel{background:#eaf0f8;color:#153e75}
-.filelabel{display:block;text-align:center}.fileinput{display:none}
+.filelabel{display:block;text-align:left;margin-bottom:8px}.fileinput{display:block;width:100%;min-height:48px;padding:10px;border:1px solid #9aaac0;border-radius:10px;background:#fff;color:#172334;font:14px system-ui;position:relative;z-index:2;opacity:1;pointer-events:auto}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.field{display:flex;flex-direction:column;gap:5px;font-size:13px;color:#42516a}
 input[type=number],select{width:100%;padding:10px;border:1px solid #dce3ed;border-radius:9px;background:white;font:inherit}
 .status{font-size:13px;color:#42516a;margin-top:9px;overflow-wrap:anywhere}.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
@@ -27,7 +27,7 @@ input[type=number],select{width:100%;padding:10px;border:1px solid #dce3ed;borde
 <header><h1>Cetak Resi Shopee</h1><p>HP Android · Kertas A4 · Epson L565</p></header>
 <main>
 <section class="card"><h2>1. Pilih PDF resi Shopee</h2>
-<label class="filelabel" for="pdfFile">📄 Pilih file PDF resi</label><input class="fileinput" id="pdfFile" type="file" accept=".pdf,application/pdf,application/octet-stream,*/*">
+<label class="filelabel" for="pdfFile">Pilih file PDF resi Shopee di sini:</label><input class="fileinput" id="pdfFile" type="file" accept=".pdf,application/pdf,application/octet-stream,*/*">
 <div class="status" id="fileStatus">Belum ada PDF dipilih.</div>
 <p class="muted">Pilih PDF resi yang sudah diunduh dari Shopee Seller. Setiap halaman PDF dianggap satu resi.</p></section>
 <section class="card"><h2>2. Pengaturan kertas A4</h2>
