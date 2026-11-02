@@ -19,7 +19,7 @@ input[type=number],select{width:100%;padding:10px;border:1px solid #dce3ed;borde
 .preview{background:#e9edf3;border-radius:10px;padding:10px;overflow:auto}.sheet{position:relative;background:white;width:min(100%,420px);aspect-ratio:210/297;margin:0 auto 12px;overflow:hidden;box-shadow:0 2px 8px #0002}
 .slot{position:absolute;overflow:hidden}.slot canvas{width:100%;height:100%;display:block}.empty{text-align:center;padding:25px;color:#64748b;font-size:13px}
 #printArea{display:none}footer{text-align:center;color:#64748b;font-size:12px;padding:8px 14px 24px}
-@page{size:A4 portrait;margin:0}
+@page{size:auto;margin:0}
 @media print{body{background:white;margin:0}header,main,footer{display:none!important}#printArea{display:block!important}.printSheet{position:relative;width:210mm;height:297mm;overflow:hidden;background:white;page-break-after:always;break-after:page}.printSheet:last-child{page-break-after:auto;break-after:auto}.printSlot{position:absolute;overflow:hidden}.printSlot canvas{width:100%;height:100%;display:block}}
 </style>
 </head>
@@ -27,12 +27,12 @@ input[type=number],select{width:100%;padding:10px;border:1px solid #dce3ed;borde
 <header><h1>Cetak Resi Shopee</h1><p>HP Android · Kertas A4 · Epson L565</p></header>
 <main>
 <section class="card"><h2>1. Pilih PDF resi Shopee</h2>
-<label class="filelabel" for="pdfFile">Pilih file PDF resi Shopee di sini:</label><input class="fileinput" id="pdfFile" type="file" accept=".pdf,application/pdf,application/octet-stream,*/*">
+<label class="filelabel" for="pdfFile">Pilih file PDF resi Shopee di sini:</label><input class="fileinput" id="pdfFile" type="file" multiple accept=".pdf,application/pdf,application/octet-stream,*/*">
 <div class="status" id="fileStatus">Belum ada PDF dipilih.</div>
-<p class="muted">Pilih PDF resi yang sudah diunduh dari Shopee Seller. Setiap halaman PDF dianggap satu resi.</p></section>
+<p class="muted">Pilih PDF resi yang sudah diunduh dari Shopee Seller. Pilih beberapa file PDF sekaligus. Setiap halaman PDF dihitung sebagai satu resi.</p></section>
 <section class="card"><h2>2. Pengaturan kertas A4</h2>
 <div class="grid">
-<label class="field">Susunan<select id="layout"><option value="2">2 resi per A4</option><option value="1">1 resi per A4</option></select></label>
+<label class="field">Resi per lembar<select id="layout"><option value="8" selected>8 resi per lembar</option><option value="6">6 resi per lembar</option><option value="4">4 resi per lembar</option><option value="2">2 resi per lembar</option><option value="1">1 resi per lembar</option></select></label><label class="field">Ukuran kertas<select id="paper"><option value="a4">A4</option><option value="f4">F4 / Folio</option></select></label>
 <label class="field">Lebar resi<select id="width"><option value="100">10 cm</option><option value="95">9,5 cm</option><option value="90">9 cm</option></select></label>
 <label class="field">Geser kanan/kiri (mm)<input id="x" type="number" value="0" min="-50" max="50"></label>
 <label class="field">Geser atas/bawah (mm)<input id="y" type="number" value="0" min="-50" max="50"></label>
@@ -54,24 +54,16 @@ input[type=number],select{width:100%;padding:10px;border:1px solid #dce3ed;borde
 (()=> {
 const $=id=>document.getElementById(id),pages=[];let testMode=false;
 if(window.pdfjsLib)pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-function cfg(){return{n:+$('layout').value,w:+$('width').value,s:(+$('scale').value||100)/100,x:+$('x').value||0,y:+$('y').value||0,g:+$('gap').value||0}}
-async function readPdf(file){
-pages.length=0;$('preview').innerHTML='<div class="empty">Membaca PDF…</div>';$('printArea').innerHTML='';
-if(!window.pdfjsLib){$('fileStatus').textContent='Pembaca PDF gagal dimuat. Periksa internet lalu muat ulang.';return}
-try{const pdf=await pdfjsLib.getDocument({data:await file.arrayBuffer()}).promise;
-for(let i=1;i<=pdf.numPages;i++){const pg=await pdf.getPage(i),vp=pg.getViewport({scale:1.6}),c=document.createElement('canvas');c.width=Math.ceil(vp.width);c.height=Math.ceil(vp.height);await pg.render({canvasContext:c.getContext('2d'),viewport:vp}).promise;pages.push(c)}
-$('fileStatus').textContent=file.name+' — '+pages.length+' halaman terbaca.';$('printBtn').disabled=false;$('testBtn').disabled=false;render();
-}catch(e){$('fileStatus').textContent='PDF gagal dibaca: '+e.message;$('preview').innerHTML='<div class="empty">Coba unduh ulang PDF resi dari Shopee.</div>'}}
-function addSheet(target,items,isPreview){const c=cfg(),sheet=document.createElement('div');sheet.className=isPreview?'sheet':'printSheet';const sw=c.w*c.s,sh=150*c.s,left=(210-sw)/2+c.x,top=c.n===1?(297-sh)/2+c.y:(297-(2*sh+c.g))/2+c.y;
-items.forEach((src,i)=>{const slot=document.createElement('div');slot.className=isPreview?'slot':'printSlot';const y=c.n===1?top:top+i*(sh+c.g);
-if(isPreview){slot.style.left=(left/210*100)+'%';slot.style.top=(y/297*100)+'%';slot.style.width=(sw/210*100)+'%';slot.style.height=(sh/297*100)+'%'}else{slot.style.left=left+'mm';slot.style.top=y+'mm';slot.style.width=sw+'mm';slot.style.height=sh+'mm'}
-const copy=document.createElement('canvas');copy.width=src.width;copy.height=src.height;copy.getContext('2d').drawImage(src,0,0);slot.appendChild(copy);sheet.appendChild(slot)});target.appendChild(sheet)}
-function render(){if(!pages.length)return;const c=cfg();$('preview').innerHTML='';$('printArea').innerHTML='';for(let i=0;i<pages.length;i+=c.n){const group=pages.slice(i,i+c.n);addSheet($('preview'),group,true);addSheet($('printArea'),group,false)}$('pageStatus').textContent=pages.length+' resi · '+Math.ceil(pages.length/c.n)+' lembar A4.'}
-$('pdfFile').addEventListener('change',e=>{if(e.target.files[0])readPdf(e.target.files[0])});
-['layout','width','x','y','scale','gap'].forEach(id=>$(id).addEventListener('change',render));
-$('refresh').onclick=render;$('reset').onclick=()=>{$('x').value=0;$('y').value=0;$('scale').value=100;$('gap').value=0;render()};
-$('testBtn').onclick=()=>{if(!pages.length)return;testMode=true;$('printArea').innerHTML='';addSheet($('printArea'),[pages[0]],false);$('printStatus').textContent='Test print: resi pertama saja. Pilih Epson L565 di dialog cetak.';window.print()};
-$('printBtn').onclick=()=>{if(!pages.length)return;testMode=false;render();$('printStatus').textContent='Menyiapkan '+pages.length+' resi untuk dicetak.';window.print()};
+function cfg(){const f=$('paper').value==='f4';return{n:+$('layout').value,w:f?215.9:210,h:f?330.2:297,x:+$('x').value||0,y:+$('y').value||0,g:+$('gap').value||2}}
+async function readFiles(files){pages.length=0;$('preview').innerHTML='<div class="empty">Membaca semua PDF…</div>';$('printArea').innerHTML='';$('printBtn').disabled=true;$('testBtn').disabled=true;if(!window.pdfjsLib){$('fileStatus').textContent='Pembaca PDF gagal dimuat. Periksa internet.';return}try{for(const file of files){const pdf=await pdfjsLib.getDocument({data:await file.arrayBuffer()}).promise;for(let i=1;i<=pdf.numPages;i++){const pg=await pdf.getPage(i),vp=pg.getViewport({scale:1.6}),cv=document.createElement('canvas');cv.width=Math.ceil(vp.width);cv.height=Math.ceil(vp.height);await pg.render({canvasContext:cv.getContext('2d'),viewport:vp}).promise;pages.push(cv)}}$('fileStatus').textContent=files.length+' file PDF dipilih · '+pages.length+' resi siap.';$('printBtn').disabled=false;$('testBtn').disabled=false;render()}catch(e){$('fileStatus').textContent='PDF gagal dibaca: '+e.message}}
+function addSheet(target,items,isPreview){const c=cfg(),cols=c.n===1?1:2,rows=Math.ceil(c.n/cols),m=5,cw=(c.w-2*m-(cols-1)*c.g)/cols,ch=(c.h-2*m-(rows-1)*c.g)/rows,sheet=document.createElement('div');sheet.className=isPreview?'sheet':'printSheet';if(isPreview)sheet.style.aspectRatio=c.w+'/'+c.h;else{sheet.style.width=c.w+'mm';sheet.style.height=c.h+'mm'}items.forEach((src,i)=>{const col=i%cols,row=Math.floor(i/cols),left=m+col*(cw+c.g)+c.x,top=m+row*(ch+c.g)+c.y,slot=document.createElement('div');slot.className=isPreview?'slot':'printSlot';if(isPreview){slot.style.left=(left/c.w*100)+'%';slot.style.top=(top/c.h*100)+'%';slot.style.width=(cw/c.w*100)+'%';slot.style.height=(ch/c.h*100)+'%'}else{slot.style.left=left+'mm';slot.style.top=top+'mm';slot.style.width=cw+'mm';slot.style.height=ch+'mm'}const cv=document.createElement('canvas'),ratio=cw/ch;cv.width=900;cv.height=Math.round(900/ratio);const ctx=cv.getContext('2d'),sw=src.width,sh=src.height,rot=sw<sh&&ratio>1,rw=rot?sh:sw,rh=rot?sw:sh,fit=Math.min(cv.width/rw,cv.height/rh)*.96,dw=rw*fit,dh=rh*fit;ctx.translate(cv.width/2,cv.height/2);if(rot)ctx.rotate(Math.PI/2);ctx.drawImage(src,-dw/2,-dh/2,dw,dh);slot.appendChild(cv);sheet.appendChild(slot)});target.appendChild(sheet)}
+function render(){if(!pages.length)return;const c=cfg();$('preview').innerHTML='';$('printArea').innerHTML='';for(let i=0;i<pages.length;i+=c.n){const g=pages.slice(i,i+c.n);addSheet($('preview'),g,true);addSheet($('printArea'),g,false)}$('pageStatus').textContent=pages.length+' resi · '+Math.ceil(pages.length/c.n)+' lembar '+(c.h>300?'F4/folio':'A4')+'.'}
+$('pdfFile').addEventListener('change',e=>{const fs=Array.from(e.target.files||[]);if(fs.length)readFiles(fs)});
+['layout','paper','x','y','gap'].forEach(id=>$(id).addEventListener('change',render));
+$('refresh').onclick=render;$('reset').onclick=()=>{$('x').value=0;$('y').value=0;$('gap').value=2;render()};
+$('testBtn').onclick=()=>{if(!pages.length)return;testMode=true;$('printArea').innerHTML='';addSheet($('printArea'),pages.slice(0,1),false);$('printStatus').textContent='Test print: resi pertama saja.';window.print()};
+$('printBtn').onclick=()=>{if(!pages.length)return;testMode=false;render();$('printStatus').textContent='Menyiapkan '+pages.length+' resi.';window.print()};
+
 window.addEventListener('afterprint',()=>{if(testMode){testMode=false;render()}$('printStatus').textContent='Dialog cetak ditutup. Periksa hasil cetak.'});
 })();
 </script>
