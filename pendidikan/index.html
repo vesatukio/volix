@@ -14,6 +14,21 @@ header b{font-size:18px}header small{display:block;opacity:.9}main{max-width:105
 nav{display:flex;gap:7px;overflow:auto;padding:14px 0}.tab,button,.btn{border:0;border-radius:9px;padding:10px 13px;font:inherit;font-weight:700;cursor:pointer}.tab{white-space:nowrap;background:#e9edf2;color:#39485c}.tab.active{background:var(--dark);color:#fff}
 .panel{margin:10px 0}.panel h2{font-size:18px;margin:0 0 12px}.hidden{display:none!important}.formgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}label{font-size:13px;font-weight:650;color:#4c596a}input,select,textarea{width:100%;margin-top:5px;border:1px solid #cbd3de;border-radius:8px;padding:10px;background:white;color:var(--dark);font:inherit}input[readonly]{background:#f1f3f5;color:#697586}.full{grid-column:1/-1}.primary{background:var(--orange);color:white}.secondary{background:#e9eef5;color:#25364d}.danger{background:#fde8e6;color:var(--red)}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.muted{color:var(--muted);font-size:12px}.tablewrap{overflow:auto}table{width:100%;border-collapse:collapse;min-width:600px}th,td{text-align:left;padding:10px;border-bottom:1px solid var(--line);font-size:13px}th{color:#657286;background:#f8f9fb}.money{font-weight:750;white-space:nowrap}.positive{color:var(--green)}.negative{color:var(--red)}.item-actions{display:flex;gap:5px}.item-actions button{padding:6px 8px;font-size:12px}.filters{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:8px;margin-bottom:10px}.categoryrow{display:flex;justify-content:space-between;border-bottom:1px solid var(--line);padding:8px 0;gap:10px}.empty{text-align:center;padding:25px;color:var(--muted)}.notice{background:#fff7ed;border:1px solid #fed7aa;padding:10px;border-radius:9px;font-size:13px;margin:10px 0}
 @media(max-width:620px){.stats{grid-template-columns:1fr 1fr}.stats .stat:last-child{grid-column:1/-1}.formgrid,.filters{grid-template-columns:1fr}.full{grid-column:auto}main{padding:12px 10px 80px}}
+
+/* Warna pembeda menu, ringkasan, dan tindakan */
+.tab:nth-child(1){background:#dbeafe;color:#1d4ed8}.tab:nth-child(2){background:#ffedd5;color:#c2410c}.tab:nth-child(3){background:#dcfce7;color:#166534}.tab:nth-child(4){background:#f3e8ff;color:#7e22ce}.tab:nth-child(5){background:#e0f2fe;color:#075985}
+.tab.active{background:#243247!important;color:#fff!important;box-shadow:0 2px 7px #24324730}
+.stats .stat:nth-child(1){background:#fff7ed;border-color:#fed7aa}.stats .stat:nth-child(1) strong{color:#c2410c}
+.stats .stat:nth-child(2){background:#eff6ff;border-color:#bfdbfe}.stats .stat:nth-child(2) strong{color:#1d4ed8}
+.stats .stat:nth-child(3){background:#f0fdf4;border-color:#bbf7d0}.stats .stat:nth-child(3) strong{color:#15803d}
+#page-dashboard .panel:nth-child(1){border-left:5px solid #3b82f6}
+#page-dashboard .panel:nth-child(2){border-left:5px solid #16a34a}
+#page-add .panel{border-top:5px solid #e87924}
+#page-list .panel{border-top:5px solid #2563eb}
+#page-report .panel{border-top:5px solid #9333ea}
+#page-backup .panel{border-top:5px solid #0d9488}
+button{transition:filter .15s,transform .15s}button:active{transform:scale(.98)}button:hover{filter:brightness(.96)}
+
 </style>
 </head>
 <body>
@@ -77,7 +92,8 @@ function openDB(){return new Promise((resolve,reject)=>{const req=indexedDB.open
 function tx(mode='readonly'){return db.transaction(STORE,mode).objectStore(STORE)}
 function getAll(){return new Promise((resolve,reject)=>{const r=tx().getAll();r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error)})}
 function save(row){return new Promise((resolve,reject)=>{const r=row.id?tx('readwrite').put(row):tx('readwrite').add(row);r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error)})}
-function remove(id){return new Promise((resolve,reject)=>{const r=tx('readwrite').delete(Number(id));r.onsuccess=resolve;r.onerror=()=>reject(r.error)})}\nfunction clearAll(){return new Promise((resolve,reject)=>{const r=tx('readwrite').clear();r.onsuccess=resolve;r.onerror=()=>reject(r.error)})}
+function remove(id){return new Promise((resolve,reject)=>{const r=tx('readwrite').delete(Number(id));r.onsuccess=resolve;r.onerror=()=>reject(r.error)})}
+function clearAll(){return new Promise((resolve,reject)=>{const r=tx('readwrite').clear();r.onsuccess=resolve;r.onerror=()=>reject(r.error)})}
 function optionsForKind(){const k=el('kind').value;el('category').innerHTML=cats[k].map(c=>'<option>'+c+'</option>').join('');el('categoryLabel').firstChild.textContent=k==='pocket_in'?'Jenis pemberian':k==='pocket_out'?'Penggunaan untuk':'Kategori'}
 function resetForm(){el('entryForm').reset();el('editId').value='';el('date').value=today();el('createdAt').value=new Date().toLocaleString('id-ID');el('formTitle').textContent='Tambah transaksi';optionsForKind()}
 function showPage(page){document.querySelectorAll('[id^=page-]').forEach(x=>x.classList.add('hidden'));el('page-'+page).classList.remove('hidden');document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.page===page));if(page==='list')renderList();if(page==='report')renderReport()}
