@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#e87924"><meta name="description" content="Catatan keuangan pendidikan anak selama kelas 7 sampai 9.">
+<link rel="manifest" href="manifest.json"><title>Keuangan Pendidikan Anak</title>
+<style>
+:root{--orange:#e87924;--dark:#243247;--bg:#f5f6f8;--line:#e3e7ed;--muted:#697586;--green:#16804a;--red:#c0392b}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--dark);font:15px/1.5 system-ui,-apple-system,Segoe UI,sans-serif}
+header{background:var(--orange);color:#fff;padding:17px max(16px,calc((100% - 1050px)/2));display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+header b{font-size:18px}header small{display:block;opacity:.9}main{max-width:1050px;margin:auto;padding:16px 14px 90px}
+.hero{background:linear-gradient(120deg,#e87924,#f59e45);color:white;border-radius:17px;padding:20px;margin:4px 0 15px}.hero h1{margin:0 0 4px;font-size:clamp(22px,4vw,30px)}.hero p{margin:0;opacity:.95}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.stat,.panel{background:white;border:1px solid var(--line);border-radius:13px;padding:14px}.stat small{display:block;color:var(--muted)}.stat strong{font-size:clamp(17px,3vw,23px);display:block;overflow-wrap:anywhere}
+nav{display:flex;gap:7px;overflow:auto;padding:14px 0}.tab,button,.btn{border:0;border-radius:9px;padding:10px 13px;font:inherit;font-weight:700;cursor:pointer}.tab{white-space:nowrap;background:#e9edf2;color:#39485c}.tab.active{background:var(--dark);color:#fff}
+.panel{margin:10px 0}.panel h2{font-size:18px;margin:0 0 12px}.hidden{display:none!important}.formgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}label{font-size:13px;font-weight:650;color:#4c596a}input,select,textarea{width:100%;margin-top:5px;border:1px solid #cbd3de;border-radius:8px;padding:10px;background:white;color:var(--dark);font:inherit}input[readonly]{background:#f1f3f5;color:#697586}.full{grid-column:1/-1}.primary{background:var(--orange);color:white}.secondary{background:#e9eef5;color:#25364d}.danger{background:#fde8e6;color:var(--red)}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.muted{color:var(--muted);font-size:12px}.tablewrap{overflow:auto}table{width:100%;border-collapse:collapse;min-width:600px}th,td{text-align:left;padding:10px;border-bottom:1px solid var(--line);font-size:13px}th{color:#657286;background:#f8f9fb}.money{font-weight:750;white-space:nowrap}.positive{color:var(--green)}.negative{color:var(--red)}.item-actions{display:flex;gap:5px}.item-actions button{padding:6px 8px;font-size:12px}.filters{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:8px;margin-bottom:10px}.categoryrow{display:flex;justify-content:space-between;border-bottom:1px solid var(--line);padding:8px 0;gap:10px}.empty{text-align:center;padding:25px;color:var(--muted)}.notice{background:#fff7ed;border:1px solid #fed7aa;padding:10px;border-radius:9px;font-size:13px;margin:10px 0}
+@media(max-width:620px){.stats{grid-template-columns:1fr 1fr}.stats .stat:last-child{grid-column:1/-1}.formgrid,.filters{grid-template-columns:1fr}.full{grid-column:auto}main{padding:12px 10px 80px}}
+</style>
+</head>
+<body>
+<header><div><b>📒 Keuangan Pendidikan Anak</b><small>SMPIT Assalaam Pekalongan · Catatan 3 tahun</small></div><span id="dbStatus">Menyiapkan penyimpanan…</span></header>
+<main>
+<section class="hero"><h1>Catatan Keuangan Pendidikan</h1><p>Tahun ajaran 2027/2028 – 2029/2030 · Kelas 7, 8, dan 9</p></section>
+<section class="stats">
+ <div class="stat"><small>Total pengeluaran anak</small><strong id="totalExpense">Rp0</strong></div>
+ <div class="stat"><small>Total pemberian uang saku</small><strong id="totalPocketIn">Rp0</strong></div>
+ <div class="stat"><small>Saldo uang saku tercatat</small><strong id="pocketBalance">Rp0</strong></div>
+</section>
+<nav>
+ <button class="tab active" data-page="dashboard">Ringkasan</button><button class="tab" data-page="add">＋ Catat transaksi</button><button class="tab" data-page="list">Riwayat</button><button class="tab" data-page="report">Laporan</button><button class="tab" data-page="backup">Backup</button>
+</nav>
+<section id="page-dashboard">
+ <div class="panel"><h2>Pengeluaran per kelas</h2><div id="gradeSummary"></div></div>
+ <div class="panel"><h2>Pengeluaran per kategori</h2><div id="categorySummary"></div></div>
+ <div class="notice">Tanggal input dicatat otomatis oleh aplikasi. Tanggal transaksi dapat disesuaikan dengan tanggal pembayaran sebenarnya. Data tersimpan di perangkat/browser ini, bukan di server.</div>
+</section>
+<section id="page-add" class="hidden">
+ <div class="panel"><h2 id="formTitle">Tambah transaksi</h2>
+ <form id="entryForm">
+ <input type="hidden" id="editId">
+ <div class="formgrid">
+  <label>Jenis transaksi<select id="kind"><option value="expense">Pengeluaran anak</option><option value="pocket_in">Pemberian uang saku</option><option value="pocket_out">Penggunaan uang saku</option><option value="income">Pemasukan / pengembalian uang</option></select></label>
+  <label>Kelas<select id="grade"><option value="7">Kelas 7 · 2027/2028</option><option value="8">Kelas 8 · 2028/2029</option><option value="9">Kelas 9 · 2029/2030</option></select></label>
+  <label>Tanggal transaksi<input type="date" id="date" required></label>
+  <label>Tanggal input otomatis<input id="createdAt" readonly></label>
+  <label id="categoryLabel">Kategori<select id="category"></select></label>
+  <label>Nominal (Rp)<input type="number" id="amount" min="1" step="1" placeholder="Contoh: 150000" required></label>
+  <label>Metode pembayaran<select id="method"><option>Tunai</option><option>Transfer</option><option>QRIS</option><option>Lainnya</option></select></label>
+  <label>Keterangan<input id="note" maxlength="140" placeholder="Contoh: Beli buku tulis"></label>
+ </div>
+ <div class="actions"><button class="primary" type="submit">Simpan transaksi</button><button class="secondary" type="button" id="resetForm">Bersihkan</button></div>
+ <p class="muted">Uang saku yang diberikan dan yang dibelanjakan dicatat terpisah agar saldo tidak tercampur dengan pengeluaran langsung orang tua.</p>
+ </form></div>
+</section>
+<section id="page-list" class="hidden"><div class="panel"><h2>Riwayat transaksi</h2>
+ <div class="filters"><input id="search" placeholder="Cari keterangan / kategori…"><select id="filterGrade"><option value="">Semua kelas</option><option value="7">Kelas 7</option><option value="8">Kelas 8</option><option value="9">Kelas 9</option></select><select id="filterKind"><option value="">Semua jenis</option><option value="expense">Pengeluaran anak</option><option value="pocket_in">Pemberian uang saku</option><option value="pocket_out">Penggunaan uang saku</option><option value="income">Pemasukan / pengembalian</option></select></div>
+ <div class="tablewrap"><table><thead><tr><th>Tanggal</th><th>Kelas</th><th>Jenis / Keterangan</th><th>Nominal</th><th>Aksi</th></tr></thead><tbody id="transactionRows"></tbody></table></div><div id="listEmpty" class="empty hidden">Belum ada transaksi.</div>
+ </div></section>
+<section id="page-report" class="hidden"><div class="panel"><h2>Laporan 3 tahun</h2><div class="filters"><select id="reportGrade"><option value="">Semua kelas</option><option value="7">Kelas 7</option><option value="8">Kelas 8</option><option value="9">Kelas 9</option></select><input type="date" id="fromDate" aria-label="Dari tanggal"><input type="date" id="toDate" aria-label="Sampai tanggal"></div><div id="reportContent"></div><div class="actions"><button class="primary" id="exportCsv">Unduh Excel (CSV)</button><button class="secondary" onclick="window.print()">Cetak laporan</button></div></div></section>
+<section id="page-backup" class="hidden"><div class="panel"><h2>Backup & pemulihan data</h2><p>Unduh backup secara berkala dan simpan di tempat aman. Backup berisi seluruh catatan transaksi.</p><div class="actions"><button class="primary" id="backupBtn">Unduh backup data (JSON)</button><label class="btn secondary">Pulihkan dari backup<input id="restoreFile" type="file" accept=".json,application/json" hidden></label></div><div class="notice">Penting: data lokal hanya ada di browser dan perangkat ini. Jika browser dihapus, perangkat diganti, atau data situs dibersihkan, data bisa hilang. Pulihkan backup pada perangkat yang ingin digunakan.</div><p id="backupMessage" class="muted"></p></div></section>
+<footer class="muted" style="text-align:center;padding:22px 5px">Catatan Keuangan Pendidikan Anak · Penyimpanan lokal</footer>
+</main>
+<script>
+const DB_NAME='keuangan-pendidikan-anak-v1', STORE='transactions';
+let db, all=[];
+const cats={
+ expense:['Sekolah','Pondok','Pendaftaran & daftar ulang','SPP','Buku & alat tulis','Seragam & pakaian','Perlengkapan pribadi','Kesehatan','Transportasi','Kegiatan sekolah','Komunikasi & internet','Makan & minum','Lain-lain'],
+ pocket_in:['Uang saku diberikan'],
+ pocket_out:['Jajan / makanan','Minuman','Kebutuhan pribadi','Keperluan sekolah','Lain-lain'],
+ income:['Pengembalian uang','Beasiswa / bantuan','Lain-lain']
+};
+const fmt=n=>'Rp'+Number(n||0).toLocaleString('id-ID');
+const gradeName=g=>({'7':'Kelas 7 · 2027/2028','8':'Kelas 8 · 2028/2029','9':'Kelas 9 · 2029/2030'}[g]||'');
+const kindName=k=>({expense:'Pengeluaran anak',pocket_in:'Pemberian uang saku',pocket_out:'Penggunaan uang saku',income:'Pemasukan / pengembalian'}[k]||k);
+const el=id=>document.getElementById(id);
+const today=()=>{const d=new Date();return new Date(d.getTime()-d.getTimezoneOffset()*60000).toISOString().slice(0,10)};
+function openDB(){return new Promise((resolve,reject)=>{const req=indexedDB.open(DB_NAME,1);req.onupgradeneeded=()=>{const s=req.result.createObjectStore(STORE,{keyPath:'id',autoIncrement:true});s.createIndex('date','date')};req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error)})}
+function tx(mode='readonly'){return db.transaction(STORE,mode).objectStore(STORE)}
+function getAll(){return new Promise((resolve,reject)=>{const r=tx().getAll();r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error)})}
+function save(row){return new Promise((resolve,reject)=>{const r=row.id?tx('readwrite').put(row):tx('readwrite').add(row);r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error)})}
+function remove(id){return new Promise((resolve,reject)=>{const r=tx('readwrite').delete(Number(id));r.onsuccess=resolve;r.onerror=()=>reject(r.error)})}
+function optionsForKind(){const k=el('kind').value;el('category').innerHTML=cats[k].map(c=>'<option>'+c+'</option>').join('');el('categoryLabel').firstChild.textContent=k==='pocket_in'?'Jenis pemberian':k==='pocket_out'?'Penggunaan untuk':'Kategori'}
+function resetForm(){el('entryForm').reset();el('editId').value='';el('date').value=today();el('createdAt').value=new Date().toLocaleString('id-ID');el('formTitle').textContent='Tambah transaksi';optionsForKind()}
+function showPage(page){document.querySelectorAll('[id^=page-]').forEach(x=>x.classList.add('hidden'));el('page-'+page).classList.remove('hidden');document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.page===page));if(page==='list')renderList();if(page==='report')renderReport()}
+function totals(rows){const sum=k=>rows.filter(x=>x.kind===k).reduce((a,x)=>a+Number(x.amount),0);return {expense:sum('expense')+sum('pocket_out'),pocketIn:sum('pocket_in'),pocketOut:sum('pocket_out'),income:sum('income'),balance:sum('pocket_in')-sum('pocket_out')}}
+function render(){const t=totals(all);el('totalExpense').textContent=fmt(t.expense);el('totalPocketIn').textContent=fmt(t.pocketIn);el('pocketBalance').textContent=fmt(t.balance);renderDashboard()}
+function renderDashboard(){const grades=['7','8','9'];el('gradeSummary').innerHTML=grades.map(g=>{const t=totals(all.filter(x=>x.grade===g));return '<div class="categoryrow"><span>'+gradeName(g)+'</span><b>'+fmt(t.expense)+'</b></div>'}).join('');const sums={};all.filter(x=>x.kind==='expense'||x.kind==='pocket_out').forEach(x=>sums[x.category]=(sums[x.category]||0)+Number(x.amount));const entries=Object.entries(sums).sort((a,b)=>b[1]-a[1]);el('categorySummary').innerHTML=entries.length?entries.map(([k,v])=>'<div class="categoryrow"><span>'+escapeHtml(k)+'</span><b>'+fmt(v)+'</b></div>').join(''):'<div class="empty">Belum ada pengeluaran tercatat.</div>'}
+function escapeHtml(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function renderList(){const q=el('search').value.toLowerCase(),g=el('filterGrade').value,k=el('filterKind').value;const rows=all.filter(x=>(!g||x.grade===g)&&(!k||x.kind===k)&&(!q||(x.note+' '+x.category+' '+kindName(x.kind)).toLowerCase().includes(q))).sort((a,b)=>b.date.localeCompare(a.date)||b.created.localeCompare(a.created));el('transactionRows').innerHTML=rows.map(x=>'<tr><td>'+x.date+'<div class="muted">Input: '+new Date(x.created).toLocaleDateString('id-ID')+'</div></td><td>'+x.grade+'</td><td><b>'+escapeHtml(kindName(x.kind))+'</b><div>'+escapeHtml(x.category)+' · '+escapeHtml(x.note||'-')+'</div></td><td class="money">'+fmt(x.amount)+'</td><td><div class="item-actions"><button class="secondary" data-edit="'+x.id+'">Edit</button><button class="danger" data-del="'+x.id+'">Hapus</button></div></td></tr>').join('');el('listEmpty').classList.toggle('hidden',rows.length>0)}
+function reportRows(){const g=el('reportGrade').value,from=el('fromDate').value,to=el('toDate').value;return all.filter(x=>(!g||x.grade===g)&&(!from||x.date>=from)&&(!to||x.date<=to))}
+function renderReport(){const rows=reportRows(),t=totals(rows);const by={};rows.forEach(x=>by[x.kind]=(by[x.kind]||0)+Number(x.amount));el('reportContent').innerHTML='<div class="categoryrow"><span>Jumlah transaksi</span><b>'+rows.length+'</b></div><div class="categoryrow"><span>Pengeluaran anak (termasuk penggunaan uang saku)</span><b>'+fmt(t.expense)+'</b></div><div class="categoryrow"><span>Pemberian uang saku</span><b>'+fmt(t.pocketIn)+'</b></div><div class="categoryrow"><span>Pemasukan / pengembalian</span><b>'+fmt(t.income)+'</b></div><div class="categoryrow"><span>Saldo uang saku pada transaksi terpilih</span><b>'+fmt(t.balance)+'</b></div><h3>Rincian kategori</h3>'+Object.entries(rows.reduce((a,x)=>{a[x.category]=(a[x.category]||0)+Number(x.amount);return a},{})).sort((a,b)=>b[1]-a[1]).map(([k,v])=>'<div class="categoryrow"><span>'+escapeHtml(k)+'</span><b>'+fmt(v)+'</b></div>').join('')}
+function download(name,content,type){const blob=new Blob([content],{type}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;a.click();URL.revokeObjectURL(url)}
+el('entryForm').addEventListener('submit',async e=>{e.preventDefault();const old=all.find(x=>x.id===Number(el('editId').value));const row={kind:el('kind').value,grade:el('grade').value,date:el('date').value,category:el('category').value,amount:Number(el('amount').value),method:el('method').value,note:el('note').value.trim(),created:old?.created||new Date().toISOString(),updated:new Date().toISOString()};if(old)row.id=old.id;await save(row);all=await getAll();render();resetForm();showPage('list');alert('Transaksi berhasil disimpan.')});
+el('kind').addEventListener('change',optionsForKind);el('resetForm').addEventListener('click',resetForm);
+document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>showPage(b.dataset.page)));
+['search','filterGrade','filterKind'].forEach(id=>el(id).addEventListener('input',renderList));
+['reportGrade','fromDate','toDate'].forEach(id=>el(id).addEventListener('change',renderReport));
+el('transactionRows').addEventListener('click',async e=>{const id=e.target.dataset.edit||e.target.dataset.del;if(!id)return;const x=all.find(r=>r.id===Number(id));if(e.target.dataset.del){if(confirm('Hapus transaksi ini?')){await remove(id);all=await getAll();render();renderList()}}else{el('editId').value=x.id;el('kind').value=x.kind;optionsForKind();el('grade').value=x.grade;el('date').value=x.date;el('createdAt').value=new Date(x.created).toLocaleString('id-ID');el('category').value=x.category;el('amount').value=x.amount;el('method').value=x.method;el('note').value=x.note;el('formTitle').textContent='Edit transaksi';showPage('add')}});
+el('backupBtn').addEventListener('click',()=>{const payload={app:'Keuangan Pendidikan Anak',version:1,exportedAt:new Date().toISOString(),transactions:all};download('backup-keuangan-pendidikan-'+today()+'.json',JSON.stringify(payload,null,2),'application/json');el('backupMessage').textContent='Backup berhasil disiapkan. Simpan file di tempat aman.'});
+el('restoreFile').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;try{const data=JSON.parse(await f.text());if(!Array.isArray(data.transactions))throw Error('Format backup tidak sesuai.');if(!confirm('Pulihkan '+data.transactions.length+' transaksi? Data yang ada dengan ID sama akan diperbarui.'))return;for(const item of data.transactions){const row={...item};delete row.id;await save(row)}all=await getAll();render();el('backupMessage').textContent='Pemulihan selesai. Periksa kembali daftar transaksi.';alert('Backup berhasil dipulihkan.')}catch(err){alert('Gagal memulihkan: '+err.message)}e.target.value=''});
+el('exportCsv').addEventListener('click',()=>{const rows=reportRows(),head=['Tanggal transaksi','Tanggal input','Tahun ajaran','Kelas','Jenis','Kategori','Keterangan','Nominal','Metode'];const data=rows.map(x=>[x.date,new Date(x.created).toLocaleString('id-ID'),gradeName(x.grade).split(' · ')[1],x.grade,kindName(x.kind),x.category,x.note,x.amount,x.method]);const csv=[head,...data].map(r=>r.map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(';')).join('\r\n');download('laporan-keuangan-pendidikan-'+today()+'.csv','\ufeff'+csv,'text/csv;charset=utf-8')});
+(async()=>{try{db=await openDB();all=await getAll();el('dbStatus').textContent='● Data tersimpan di perangkat';resetForm();render()}catch(e){el('dbStatus').textContent='Penyimpanan gagal';alert('Browser tidak mendukung penyimpanan lokal aplikasi ini.')}})();
+if('serviceWorker' in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+</script></body></html>
