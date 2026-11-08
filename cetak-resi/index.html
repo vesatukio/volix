@@ -27,9 +27,9 @@ input[type=number],select{width:100%;padding:10px;border:1px solid #dce3ed;borde
 <header><h1>Cetak Resi Shopee</h1><p>HP Android · Kertas A4 · Epson L565</p></header>
 <main>
 <section class="card"><h2>1. Pilih PDF resi Shopee</h2>
-<label class="filelabel" for="pdfFile">Pilih file PDF resi Shopee di sini:</label><input class="fileinput" id="pdfFile" type="file" accept=".pdf,application/pdf,application/octet-stream,*/*">
+<label class="filelabel" for="pdfFile">Pilih file PDF resi Shopee di sini:</label><input class="fileinput" id="pdfFile" type="file" multiple accept=".pdf,application/pdf,application/octet-stream,*/*">
 <div class="status" id="fileStatus">Belum ada PDF dipilih.</div><div class="row"><button class="secondary" id="clearFiles" type="button">Hapus semua resi</button></div>
-<p class="muted">Pilih PDF resi yang sudah diunduh dari Shopee Seller. Pilih satu PDF, lalu tekan lagi untuk menambahkan PDF berikutnya. File yang sudah masuk tidak akan terhapus. Setiap halaman PDF dihitung sebagai satu resi.</p></section>
+<p class="muted">Pilih beberapa PDF resi sekaligus dari folder Download/WhatsApp. File bisa ditambahkan lagi pada pemilihan berikutnya. Semua halaman PDF akan disusun otomatis, 10 resi per lembar A4 (2 kolom × 5 baris).</p></section>
 <section class="card"><h2>2. Pengaturan kertas A4</h2>
 <div class="grid">
 <label class="field">Resi per lembar<select id="layout"><option value="10" selected>10 resi per lembar</option><option value="8">8 resi per lembar</option><option value="6">6 resi per lembar</option><option value="4">4 resi per lembar</option><option value="2">2 resi per lembar</option><option value="1">1 resi per lembar</option></select></label><label class="field">Ukuran kertas<select id="paper"><option value="a4">A4</option><option value="f4">F4 / Folio</option></select></label>
