@@ -79,7 +79,11 @@
 .admin-variant small{display:block;color:var(--muted);font-size:10px}
 .admin-variant .row-actions{justify-content:flex-end;flex-wrap:nowrap}
 .admin-variant .row-actions button{padding:6px 8px;font-size:11px}
-.variant-edit-card{border:1px solid var(--line);border-radius:12px;padding:12px;margin:12px 0;background:#f8fafc}\n/* Form Edit SKU tampil sebagai panel mengambang, tanpa menggeser posisi daftar. */\n#admin #editor:not(.hidden){display:block!important;position:fixed;z-index:20000;left:50%;top:50%;transform:translate(-50%,-50%);width:min(900px,calc(100vw - 24px));max-height:88vh;overflow:auto;margin:0;background:#fff;box-shadow:0 0 0 100vmax rgba(10,25,48,.58),0 18px 55px rgba(0,0,0,.28);border:1px solid #cbd5e1}\n#admin #editor h3{margin-top:0}\n#admin #editor .row-actions:last-child{position:sticky;bottom:-12px;background:#fff;padding:10px 0;border-top:1px solid var(--line)}
+.variant-edit-card{border:1px solid var(--line);border-radius:12px;padding:12px;margin:12px 0;background:#f8fafc}
+/* Form Edit SKU tampil sebagai panel mengambang, tanpa menggeser posisi daftar. */
+#admin #editor:not(.hidden){display:block!important;position:fixed;z-index:20000;left:50%;top:50%;transform:translate(-50%,-50%);width:min(900px,calc(100vw - 24px));max-height:88vh;overflow:auto;margin:0;background:#fff;box-shadow:0 0 0 100vmax rgba(10,25,48,.58),0 18px 55px rgba(0,0,0,.28);border:1px solid #cbd5e1}
+#admin #editor h3{margin-top:0}
+#admin #editor .row-actions:last-child{position:sticky;bottom:-12px;background:#fff;padding:10px 0;border-top:1px solid var(--line)}
 @media(max-width:600px){
  .admin-group{padding:10px}
  .admin-group-head{align-items:flex-start}
@@ -134,7 +138,8 @@ const safe=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'
 function save(){localStorage.setItem(KEY,JSON.stringify(data));renderCatalog();renderAdmin()}
 function showTab(id){document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.tab===id));['catalog','admin','calc','backup'].forEach(x=>document.getElementById(x).classList.toggle('hidden',x!==id));if(id==='admin')renderAdmin()}
 document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>showTab(b.dataset.tab));
-const selectedVariants={};\nlet adminCategoryFilter='';
+const selectedVariants={};
+let adminCategoryFilter='';
 function renderCatalog(){
  const q=document.getElementById('search').value.toLowerCase(),f=document.getElementById('filter').value;
  const active=data.filter(p=>p.active);
