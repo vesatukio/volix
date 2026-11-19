@@ -115,11 +115,12 @@ function renderProducts(){const q=(document.getElementById("skuSearch")?.value||
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
 async function record(sku,qty,tracking=null){const p=products.find(x=>String(x.sku||"").trim().toUpperCase()===String(sku||"").trim().toUpperCase());if(!p){document.getElementById("message").textContent="SKU tidak ditemukan: "+sku;return false}if(!(await deductStock(p,qty,tracking)))return false;const now=new Date();const row={id:(crypto.randomUUID?crypto.randomUUID():String(Date.now())+"-"+Math.random().toString(36).slice(2)),sold_at:now.toISOString(),sku:p.sku,product_name:p.name,quantity:qty,sale_price:p.price,unit_cost:p.cost,admin_fee:p.admin,packing_fee:p.pack,order_ref:tracking,tracking_code:tracking,shipping_status:tracking?"Sukses kirim":null,updated_at:now.toISOString()};sales.unshift(row);await put("sales",row);document.getElementById("message").textContent="Tercatat "+qty+" × "+p.sku+" · "+now.toLocaleTimeString("id-ID",{hour:"2-digit",minute:"2-digit"});document.getElementById("skuInput").value="";if(!window.cameraScanMode)document.getElementById("shipmentPanel").classList.add("hidden");render();return true;}
 
+function orderedProducts(){return products.slice().sort((a,b)=>{const ao=a.sortOrder==null?Infinity:Number(a.sortOrder),bo=b.sortOrder==null?Infinity:Number(b.sortOrder);return ao-bo||String(a.sku||"").localeCompare(String(b.sku||""),undefined,{numeric:true,sensitivity:"base"})})}
 let pendingTracking="",pendingQty=1;
 function addShipmentItem(sku="",qty=1){
  const wrap=document.getElementById("shipmentItems"),row=document.createElement("div");row.className="shipment-item";
  const select=document.createElement("select");select.setAttribute("aria-label","SKU barang");
- select.innerHTML=products.map(p=>'<option value="'+esc(p.sku)+'" '+(p.sku===sku?"selected":"")+'>'+esc(p.sku)+' — '+esc(p.name)+'</option>').join("");
+ select.innerHTML=orderedProducts().map(p=>'<option value="'+esc(p.sku)+'" '+(p.sku===sku?"selected":"")+'>'+esc(p.sku)+' — '+esc(p.name)+'</option>').join("");
  const qlabel=document.createElement("label");qlabel.textContent="Jumlah";
  const input=document.createElement("input");input.type="number";input.min="1";input.step="1";input.value=String(Math.max(1,Number(qty)||1));input.setAttribute("aria-label","Jumlah barang");
  qlabel.appendChild(input);const remove=document.createElement("button");remove.type="button";remove.textContent="×";remove.className="soft";remove.title="Hapus SKU ini";remove.setAttribute("aria-label","Hapus SKU ini");
@@ -162,7 +163,7 @@ document.getElementById("productsToggle").onclick=()=>{const editor=document.get
 function chooseSkuForAction(action){
  const list=document.getElementById("skuQuickMessage");
  if(!products.length){list.textContent="Belum ada SKU untuk "+action+".";return}
- list.innerHTML='<label style="display:block;margin-bottom:6px;font-weight:700">Pilih SKU yang ingin '+(action==="edit"?"diedit":"dihapus")+'</label><select id="skuQuickSelect" style="width:100%;margin-bottom:8px">'+products.map(p=>'<option value="'+esc(p.sku)+'">'+esc(p.sku)+' — '+esc(p.name)+'</option>').join("")+'</select><button type="button" id="skuQuickGo" class="primary">'+(action==="edit"?"Buka Edit":"Hapus SKU terpilih")+'</button>';
+ list.innerHTML='<label style="display:block;margin-bottom:6px;font-weight:700">Pilih SKU yang ingin '+(action==="edit"?"diedit":"dihapus")+'</label><select id="skuQuickSelect" style="width:100%;margin-bottom:8px">'+orderedProducts().map(p=>'<option value="'+esc(p.sku)+'">'+esc(p.sku)+' — '+esc(p.name)+'</option>').join("")+'</select><button type="button" id="skuQuickGo" class="primary">'+(action==="edit"?"Buka Edit":"Hapus SKU terpilih")+'</button>';
  document.getElementById("skuQuickGo").onclick=async()=>{
   const sku=document.getElementById("skuQuickSelect").value;
   if(action==="edit"){
